@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4cca509ddc8541279f84415ac01a6c9e" Name="Diagram1">
+        <EntityTypeShape EntityType="Car2GoDBModel.Accesorio" Width="1.5" PointX="8" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Car2GoDBModel.Auto" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Car2GoDBModel.Modulo" Width="1.5" PointX="3" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Car2GoDBModel.Operacion" Width="1.5" PointX="5.875" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Car2GoDBModel.Reserva" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Car2GoDBModel.ReservaAccesorio" Width="1.5" PointX="5.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Car2GoDBModel.ReservaServicio" Width="1.5" PointX="5.75" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Car2GoDBModel.Rol" Width="1.5" PointX="5.875" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Car2GoDBModel.RolOperacion" Width="1.5" PointX="6" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Car2GoDBModel.Servicio" Width="1.5" PointX="8.125" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Car2GoDBModel.Usuario" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Car2GoDBModel.UsuarioReserva" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
+        <AssociationConnector Association="Car2GoDBModel.FK_ReservaAccesorio_Accesorio" ManuallyRouted="false" />
+        <AssociationConnector Association="Car2GoDBModel.FK_Reserva_Auto" ManuallyRouted="false" />
+        <AssociationConnector Association="Car2GoDBModel.FK_Operacion_Modulo" ManuallyRouted="false" />
+        <AssociationConnector Association="Car2GoDBModel.FK_RolOperacion_Operacion" ManuallyRouted="false" />
+        <AssociationConnector Association="Car2GoDBModel.FK_ReservaAccesorio_Reserva" ManuallyRouted="false" />
+        <AssociationConnector Association="Car2GoDBModel.FK_ReservaServicio_Reserva" ManuallyRouted="false" ></AssociationConnector>
+        <AssociationConnector Association="Car2GoDBModel.FK_UsuarioReserva_Reserva" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="Car2GoDBModel.FK_ReservaServicio_Servicio" ManuallyRouted="false" />
+        <AssociationConnector Association="Car2GoDBModel.FK_RolOperacion_Rol" ManuallyRouted="false" />
+        <AssociationConnector Association="Car2GoDBModel.FK_Usuario_Rol" ManuallyRouted="false" />
+        <AssociationConnector Association="Car2GoDBModel.FK_UsuarioReserva_Usuario" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

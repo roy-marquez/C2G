@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <main class="container p-4">
+
+        <h2>Error: Operación No Autorizada</h2>
+        <div class="error-page">
+           <div class="error-content text-danger">
+               <h4><i class="fa fa-warning text-red"></i>Atención, No tienes autorización para ejecutar </h4>
+                @if (ViewBag.operacion != "")
+                {
+                    <p>Operación: @ViewBag.operacion</p>
+                }
+                @if (ViewBag.modulo != "")
+                {
+                    <p>En el Modulo: @ViewBag.modulo</p>
+                }
+                @if (ViewBag.msjeErrorExcepcion != "")
+                {
+                    <p>@ViewBag.msjeErrorExcepcion</p>
+                }
+            </div>
+        </div>
+
+    </main>
