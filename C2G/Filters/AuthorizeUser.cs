@@ -49,7 +49,7 @@ namespace C2G.Filters
                     var oOperacion = db.Operacion.Find(idOperacion);
                     int? idModulo = oOperacion.id_modulo;
                     nombreOperacion = getNombreDeOperacion(idOperacion);
-                    nombreModulo = getNombreDelModulo(idOperacion);
+                    nombreModulo = getNombreDelModulo(idModulo);
                     filterContext.Result = new RedirectResult("~/Error/UnauthorizedOperation?operacion=" + nombreOperacion + "&modulo=" + nombreModulo + "&msjeErrorException=");
                 }
             }
@@ -81,20 +81,20 @@ namespace C2G.Filters
         }
 
         //regresa el nombre de operacion con base en su numero identificador
-        public string getNombreDelModulo(int idModulo)
+        public string getNombreDelModulo(int? idModulo)
         {
             var modulo = from m in db.Modulo
                          where m.id_modulo == idModulo
                          select m.nombre;
 
             string nombreModulo;
+            
             try
             {
                 nombreModulo = modulo.First();
             }
             catch (Exception)
             {
-
                 nombreModulo = "";
             }
             return nombreModulo;

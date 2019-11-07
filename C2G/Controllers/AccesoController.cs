@@ -35,6 +35,7 @@ namespace C2G.Controllers
 
                     //Si la comprobacion es positiva se crea sesion para el objeto Usuario
                     Session["User"] = oUser;
+                    ViewBag.CurrentUser = oUser.nombre;
                 }
 
                 //Se redirecciona al Vista Index del HomeControler.
@@ -46,5 +47,6 @@ namespace C2G.Controllers
                 return View();
             }
         }
+
     }
 }

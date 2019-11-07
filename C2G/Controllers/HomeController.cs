@@ -10,6 +10,8 @@ namespace C2G.Controllers
     {
         public ActionResult Index()
         {
+
+            ViewBag.CurrentUser = Session["User"];
             return View();
         }
 
