@@ -62,9 +62,9 @@
         <div class="col-md-4">
             <h3>Login</h3>
             <hr />
-            <div class="text-danger">
-                @ViewBag.Error
-            </div>
+
+            @*Validacion de Usuario y Contraseña*@
+            <div class="text-danger"> @ViewBag.Error </div>
 
             <form action="@Url.Content("~/Acceso/Login")" method="post" class="container-fluid">
                 <div class="form-group">

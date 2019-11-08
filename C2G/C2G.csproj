@@ -134,6 +134,7 @@
     <Compile Include="Controllers\CerrarController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventarioAutosController.cs" />
     <Compile Include="Controllers\ReservasController.cs" />
     <Compile Include="Filters\AuthorizeUser.cs" />
     <Compile Include="Filters\VerificaSession.cs" />
@@ -191,6 +192,8 @@
     <Compile Include="Models\UsuarioReserva.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\AutoViewModel.cs" />
+    <Compile Include="Models\ViewModels\ListAutoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +298,8 @@
     <Content Include="Views\Reservas\ModificarReserva.cshtml" />
     <Content Include="Views\Reservas\EliminarReserva.cshtml" />
     <Content Include="Views\Error\UnauthorizedOperation.cshtml" />
+    <Content Include="Views\InventarioAutos\AgregarAuto.cshtml" />
+    <Content Include="Views\InventarioAutos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

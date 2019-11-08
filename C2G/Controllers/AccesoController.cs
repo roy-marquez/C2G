@@ -22,6 +22,7 @@ namespace C2G.Controllers
                 //Abro conexion y valido datos ingresados contra datos en el modelo de db
                 using (Models.Car2GoDBEntities db = new Models.Car2GoDBEntities())
                 {
+                    //Validacion de Credenciales en la Base de Datos. Ojo sin encriptar!
                     var oUser = (from d in db.Usuario
                                 where d.email == user.Trim() && d.password == pw.Trim()
                                 select d).FirstOrDefault();
@@ -35,7 +36,7 @@ namespace C2G.Controllers
 
                     //Si la comprobacion es positiva se crea sesion para el objeto Usuario
                     Session["User"] = oUser;
-                    ViewBag.CurrentUser = oUser.nombre;
+                    TempData["CurrentUser"] = oUser.nombre;
                 }
 
                 //Se redirecciona al Vista Index del HomeControler.

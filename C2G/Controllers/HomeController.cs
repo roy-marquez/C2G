@@ -24,8 +24,8 @@ namespace C2G.Controllers
 
         public ActionResult Ubicacion()
         {
-            //ViewBag.Message = "Your contact page.";
-
+            
+            ViewBag.CurrentUser = Session["User"];
             return View();
         }
     }

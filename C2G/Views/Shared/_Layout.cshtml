@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -31,22 +32,30 @@
                                 Administración
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Inventario de Autos</a>
+                                @*<a class="dropdown-item" href="#">Inventario de Autos</a>*@
+                                <div>@Html.ActionLink("Inventario Autos", "Index", "InventarioAutos", null, new { @class = "nav-link" })</div>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Usuarios</a>
                             </div>
                         </li>
-
-                        @*<li class="nav-item">@Html.ActionLink("Regístrese>>", "Contact", "Home", null, new { @class = "nav-link disable" })</li>*@
-
                     </ul>
 
                 </div>
 
-                <div class="text-right">
-                    @*@if (ViewBag.CurrentUser != "")*@
-                    <p> Usuario: @ViewBag.CurrentUser <span class="nav-item">@Html.ActionLink("Cerrar Sesion", "Logoff", "Cerrar", null, new { @class = "nav-link" })</span> </p>
+                @*1. Recibo el nombre del Usuario Actual y lo agrego a la barra de navegacion*@
+                @*2. Agrego Link para Cerrar Sesion*@
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    @if ((String)TempData["CurrentUser"] != "")
+                    {
+                        ViewBag.CurrentUser = TempData["CurrentUser"] + " >>";
+                    }
+                    <ul class="nav navbar-nav mr-auto">
+                        <li class="nav-item text-xs-right d-inline nav-link text-success"> @ViewBag.CurrentUser </li>
+                        <li class="nav-item text-xs-right d-inline text-danger"> @Html.ActionLink("Cerrar Sesión", "Logoff", "Cerrar", null, new { @class = "nav-link text-danger" }) </li>
+                        <li class="nav-item text-xs-right d-inline nav-link text-danger"> <a class="text-danger" href="~/Cerrar/Logoff"><i class="fas fa-sign-out-alt"></i></a> </li>
+                    </ul>
                 </div>
+
             </div>
         </nav>
     </header>

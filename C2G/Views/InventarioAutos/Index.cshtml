@@ -1,0 +1,64 @@
+﻿@model List<C2G.Models.ViewModels.ListAutoViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<section class="container p-4">
+    <h2>Inventario de Autos</h2>
+
+    <main class="text-center">
+        <div class="row" style="padding: 1em; text-align:right">
+            <a href="~/InventarioAutos/AgregarAuto" class="btn btn-outline-success"> <i class="far fa-plus-square"></i> Agregar</a>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="tabla table-responsive-md table-bordered table-hover">
+                    <tr class="p-2">
+                        <th class="p-1">#</th>
+                        <th class="p-1">Placa</th>
+                        <th class="p-1">Marca</th>
+                        <th class="p-1">Modelo</th>
+                        <th class="p-1">Transmisión</th>
+                        <th class="p-1">Combustible</th>
+                        <th class="p-1">Color</th>
+                        <th class="p-1">Año</th>
+                        <th class="p-1">Rack</th>
+                        <th class="p-1">Tipo</th>
+                        @*<th>Foto</th>*@
+                        <th class="p-1">Lugar</th>
+                        <th class="p-1">Estado</th>
+                        <th colspan="2">Operaciones</th>
+                    </tr>
+                    @foreach (var oElemento in Model)
+                    {
+                <tr>
+                    <td class="p-1">@oElemento.IdAuto</td>
+                    <td class="p-1">@oElemento.Placa</td>
+                    <td class="p-1">@oElemento.Marca</td>
+                    <td class="p-1">@oElemento.Modelo</td>
+                    <td class="p-1">@oElemento.Transmision</td>
+                    <td class="p-1">@oElemento.Combustible</td>
+                    <td class="p-1">@oElemento.Color</td>
+                    <td class="p-1">@oElemento.Anio.Year</td>
+                    <td class="p-1">@oElemento.Rack</td>
+                    <td class="p-1">@oElemento.Tipo</td>
+                    @*<td>@oElemento.ImagenRuta</td>*@
+                    <td class="p-1">@oElemento.Lugar</td>
+                    <td class="p-1">@oElemento.Estado</td>
+                    <td>
+                        <a class="btn btn-outline-info" href="~/Tabla/Editar/@oElemento.IdAuto"><i class="far fa-edit"></i> Editar</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-danger" href="~/Tabla/Eliminar/@oElemento.IdAuto"><i class="far fa-minus-square"></i> Eliminar</a>
+                    </td>
+                </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+
+
+    </main>
+</section>
