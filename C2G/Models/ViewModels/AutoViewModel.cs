@@ -8,6 +8,7 @@ namespace C2G.Models.ViewModels
 {
     public class AutoViewModel
     {
+        [Required]
         public int IdAuto { get; set; }
 
         [StringLength(20, ErrorMessage = "Máximo 20 carácteres")]

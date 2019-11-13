@@ -53,14 +53,26 @@ namespace C2G.Controllers
         {
             try
             {
+                //Si todas las validaciones fueron correctas
                 if (ModelState.IsValid)
                 {
                     using (Car2GoDBEntities db = new Car2GoDBEntities())
                     {
-                        var oAuto = new Auto();
-                        oAuto.placa = model.Placa;
-                        oAuto.marca = model.Marca;
-                        oAuto.modelo = model.Modelo;
+                        var oAuto = new Auto
+                        {
+                            placa = model.Placa,
+                            marca = model.Marca,
+                            modelo = model.Modelo,
+                            transmision = model.Transmision,
+                            combustible = model.Combustible,
+                            color = model.Color,
+                            anio = model.Anio,
+                            rack = Convert.ToByte(model.Rack),
+                            tipo = model.Tipo,
+                            imagen_ruta = model.ImagenRuta,
+                            lugar = model.Lugar,
+                            estado = model.Estado
+                        };
 
                         db.Auto.Add(oAuto);
                         db.SaveChanges();
@@ -76,23 +88,90 @@ namespace C2G.Controllers
             }
         }
 
+        
+        //[AuthorizeUser(idOperacion: 5)]
+        //public ActionResult ConsultarAuto()
+        //{
+        //    return View();
+        //}
 
-        [AuthorizeUser(idOperacion: 5)]
-        public ActionResult ConsultarAuto()
-        {
-            return View();
-        }
-
+        //MODIFICAR REGISTRO+++++++++++++++
         [AuthorizeUser(idOperacion: 7)]
-        public ActionResult ModificarAuto()
+        public ActionResult ModificarAuto(int id)
         {
-            return View();
+            AutoViewModel model = new AutoViewModel();
+            using (Car2GoDBEntities db = new Car2GoDBEntities())
+            {
+                var oAuto = db.Auto.Find(id);
+                model.Placa = oAuto.placa;
+                model.Marca = oAuto.marca;
+                model.Modelo = oAuto.modelo;
+                model.Transmision = oAuto.transmision;
+                model.Combustible = oAuto.combustible;
+                model.Color = oAuto.color;
+                model.Anio = Convert.ToDateTime(oAuto.anio);
+                model.Rack = Convert.ToBoolean(oAuto.rack);
+                model.Tipo = oAuto.tipo;
+                model.ImagenRuta = oAuto.imagen_ruta;
+                model.Lugar = oAuto.lugar;
+                model.Estado = oAuto.estado;
+                //int v = model.IdAuto = oAuto.id_auto;
+                model.IdAuto = oAuto.id_auto;
+            }
+
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult ModificarAuto(AutoViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    using (Car2GoDBEntities db = new Car2GoDBEntities())
+                    {
+                        var oAuto = db.Auto.Find(model.IdAuto);
+                        oAuto.placa = model.Placa;
+                        oAuto.marca = model.Marca;
+                        oAuto.modelo = model.Modelo;
+                        oAuto.transmision = model.Transmision;
+                        oAuto.combustible = model.Combustible;
+                        oAuto.color = model.Color;
+                        oAuto.anio = model.Anio;
+                        oAuto.rack = Convert.ToByte(model.Rack);
+                        oAuto.imagen_ruta = model.ImagenRuta;
+                        oAuto.lugar = model.Lugar;
+                        oAuto.estado = model.Estado;
+                        oAuto.id_auto = model.IdAuto;
+
+                        db.Entry(oAuto).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    return Redirect("~/InventarioAutos/");
+                }
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
+        // ELIMINAR REGISTRO+++++++++++++++
+        //Muy muy muy importante el parametro de entrada debe llamarse "id"
+        //debe coincidir con el establecido en el archivo de Rutas "RouteConfig"
         [AuthorizeUser(idOperacion: 8)]
-        public ActionResult EliminarAuto()
+        public ActionResult EliminarAuto(int id)
         {
-            return View();
+            
+            using (Car2GoDBEntities db = new Car2GoDBEntities())
+            {
+
+                var oAuto = db.Auto.Find(id);
+                db.Auto.Remove(oAuto);
+                db.SaveChanges();
+            }
+                return Redirect("~/InventarioAutos/");
         }
     }
 }

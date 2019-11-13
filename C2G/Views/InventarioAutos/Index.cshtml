@@ -1,13 +1,13 @@
 ﻿@model List<C2G.Models.ViewModels.ListAutoViewModel>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Inventario Autos";
 }
 
 <section class="container p-4">
     <h2>Inventario de Autos</h2>
 
     <main class="text-center">
-        <div class="row" style="padding: 1em; text-align:right">
+        <div class="row text-right" style="padding: 1em; text-align:right">
             <a href="~/InventarioAutos/AgregarAuto" class="btn btn-outline-success"> <i class="far fa-plus-square"></i> Agregar</a>
         </div>
 
@@ -32,27 +32,27 @@
                     </tr>
                     @foreach (var oElemento in Model)
                     {
-                <tr>
-                    <td class="p-1">@oElemento.IdAuto</td>
-                    <td class="p-1">@oElemento.Placa</td>
-                    <td class="p-1">@oElemento.Marca</td>
-                    <td class="p-1">@oElemento.Modelo</td>
-                    <td class="p-1">@oElemento.Transmision</td>
-                    <td class="p-1">@oElemento.Combustible</td>
-                    <td class="p-1">@oElemento.Color</td>
-                    <td class="p-1">@oElemento.Anio.Year</td>
-                    <td class="p-1">@oElemento.Rack</td>
-                    <td class="p-1">@oElemento.Tipo</td>
-                    @*<td>@oElemento.ImagenRuta</td>*@
-                    <td class="p-1">@oElemento.Lugar</td>
-                    <td class="p-1">@oElemento.Estado</td>
-                    <td>
-                        <a class="btn btn-outline-info" href="~/Tabla/Editar/@oElemento.IdAuto"><i class="far fa-edit"></i> Editar</a>
-                    </td>
-                    <td>
-                        <a class="btn btn-outline-danger" href="~/Tabla/Eliminar/@oElemento.IdAuto"><i class="far fa-minus-square"></i> Eliminar</a>
-                    </td>
-                </tr>
+                        <tr>
+                            <td class="p-1">@oElemento.IdAuto</td>
+                            <td class="p-1">@oElemento.Placa</td>
+                            <td class="p-1">@oElemento.Marca</td>
+                            <td class="p-1">@oElemento.Modelo</td>
+                            <td class="p-1">@oElemento.Transmision</td>
+                            <td class="p-1">@oElemento.Combustible</td>
+                            <td class="p-1">@oElemento.Color</td>
+                            <td class="p-1">@oElemento.Anio.Year</td>
+                            <td class="p-1">@oElemento.Rack</td>
+                            <td class="p-1">@oElemento.Tipo</td>
+                            @*<td>@oElemento.ImagenRuta</td>*@
+                            <td class="p-1">@oElemento.Lugar</td>
+                            <td class="p-1">@oElemento.Estado</td>
+                            <td>
+                                <a class="btn btn-outline-info" href="~/InventarioAutos/ModificarAuto/@oElemento.IdAuto"><i class="far fa-edit"></i> Modificar</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-danger" href="~/InventarioAutos/EliminarAuto/@oElemento.IdAuto"><i class="far fa-minus-square"></i> Eliminar</a>
+                            </td>
+                        </tr>
                     }
 
                 </table>
