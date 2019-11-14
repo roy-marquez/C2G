@@ -1,0 +1,122 @@
+﻿@model C2G.Models.ViewModels.UsuarioViewModel
+@{
+    ViewBag.Title = "Registrar Cliente";
+}
+
+<div class="container mb-5 p-4">
+    <h3>@ViewBag.Title</h3>
+
+    @using (Html.BeginForm(("RegistrarCliente", "Usuario", FormMethod.Post)))
+    {
+
+        <div class="row">
+            <div id="ColumnaIzquierda" class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Email)
+                    @Html.TextBoxFor(d => d.Email, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(d => d.Email, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Password)
+                    @Html.PasswordFor(d => d.Password, new { @class = "form-control", placeholder = "Password" })
+                    @Html.ValidationMessageFor(d => d.Password, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(d => d.RePassword)
+                    @Html.PasswordFor(d => d.RePassword, new { @class = "form-control", placeholder = "Password" })
+                    @Html.ValidationMessageFor(d => d.RePassword, null, new { @class = "text-danger" })
+                </div>
+
+
+
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Nombre)
+                    @Html.TextBoxFor(d => d.Nombre, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(d => d.Nombre, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Apellido1)
+                    @Html.TextBoxFor(d => d.Apellido1, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(d => d.Apellido1, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Apellido2)
+                    @Html.TextBoxFor(d => d.Apellido2, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(d => d.Apellido2, null, new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div id="ColumnaDerecha" class="col-md-6 form">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.DocIdTipo) <br />
+                    @Html.DropDownListFor(d => d.DocIdTipo, new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Cédula", Value = "cedula", Selected = true },
+                        new SelectListItem { Text = "Pasaporte", Value = "pasaporte"},
+                        new SelectListItem { Text = "Céd.Residencia", Value = "residencia"},
+                        new SelectListItem { Text = "Otro", Value = "otro"}
+                    })
+                    @Html.ValidationMessageFor(d => d.DocIdTipo, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(d => d.DocIdNum)
+                    @Html.TextBoxFor(d => d.DocIdNum, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(d => d.DocIdNum, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(d => d.LicenciaTipo) <br />
+                    @Html.DropDownListFor(d => d.LicenciaTipo, new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "B1", Value = "B1", Selected = true},
+                        new SelectListItem { Text = "B2", Value = "B2"},
+                        new SelectListItem { Text = "B3", Value = "B3"},
+                        new SelectListItem { Text = "Otra", Value = "otra"},
+                        new SelectListItem { Text = "Ninguna", Value = "ninguna"}
+
+                    }, "Tipo de Licencia")
+                    @Html.ValidationMessageFor(d => d.LicenciaTipo, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(d => d.LicenciaNum)
+                    @Html.TextBoxFor(d => d.LicenciaNum, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(d => d.LicenciaNum, null, new { @class = "text-danger" })
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Nacionalidad)
+                    @Html.TextBoxFor(d => d.Nacionalidad, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(d => d.Nacionalidad, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(d => d.PaisResidencia)
+                    @Html.TextBoxFor(d => d.PaisResidencia, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(d => d.PaisResidencia, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Direccion)
+                    @Html.TextAreaFor(d => d.Direccion, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(d => d.PaisResidencia, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <input type="submit"  value="Registrar" class="btn btn-outline-success" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

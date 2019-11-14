@@ -49,5 +49,45 @@ namespace C2G.Controllers
             }
         }
 
+        public ActionResult Invitado()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Invitado(string user, string pw)
+        {
+            try
+            {
+                //Abro conexion y valido datos ingresados contra datos en el modelo de db
+                using (Models.Car2GoDBEntities db = new Models.Car2GoDBEntities())
+                {
+                    //Validacion de Credenciales en la Base de Datos. Ojo sin encriptar!
+                    var oUser = (from d in db.Usuario
+                                 where d.email == user.Trim() && d.password == pw.Trim()
+                                 select d).FirstOrDefault();
+
+                    //Si la comprobación falla
+                    if (oUser == null)
+                    {
+                        ViewBag.Error = "Usuario o contraseña inválida";
+                        return View();
+                    }
+
+                    //Si la comprobacion es positiva se crea sesion para el objeto Usuario
+                    Session["User"] = oUser;
+                    TempData["CurrentUser"] = oUser.nombre;
+                }
+
+                //Se redirecciona al Vista Index del HomeControler.
+                return RedirectToAction("RegistrarCliente", "Usuario");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View();
+            }
+        }
+
     }
 }

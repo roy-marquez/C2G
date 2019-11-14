@@ -136,6 +136,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventarioAutosController.cs" />
     <Compile Include="Controllers\ReservasController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Filters\AuthorizeUser.cs" />
     <Compile Include="Filters\VerificaSession.cs" />
     <Compile Include="Global.asax.cs">
@@ -194,6 +195,8 @@
     </Compile>
     <Compile Include="Models\ViewModels\AutoViewModel.cs" />
     <Compile Include="Models\ViewModels\ListAutoViewModel.cs" />
+    <Compile Include="Models\ViewModels\ListUsuarioViewModel.cs" />
+    <Compile Include="Models\ViewModels\UsuarioViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -301,10 +304,12 @@
     <Content Include="Views\InventarioAutos\AgregarAuto.cshtml" />
     <Content Include="Views\InventarioAutos\Index.cshtml" />
     <Content Include="Views\InventarioAutos\ModificarAuto.cshtml" />
+    <Content Include="Views\Usuario\Registrar.cshtml" />
+    <Content Include="Views\Usuario\RegistroExitoso.cshtml" />
+    <Content Include="Views\Usuario\RegistrarCliente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Cerrar\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -3,7 +3,7 @@
     ViewBag.Title = "Login";
 }
 
-    <div class="container">
+    <div class="container mb-3">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
                 <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -38,16 +38,24 @@
             <h3>Regístrese</h3>
             <p>
                 Con su afiliación podrá hacer y editar nuevas reservas.
-            </p>
-            <p>
-                Podrá acceder a grandes promociones, descuentos y más...
+                Acceder a grandes promociones, descuentos y más...
             </p>
 
-            <p><a class="btn btn-outline-success" href="#">Registrarme &raquo;</a></p>
+            <form action="@Url.Content("~/Acceso/Invitado")" method="post" class="container-fluid">
+                <div class="form-group">   
+                    <input type="hidden" name="user" value="invitado@car2go.com" />
+                    <input type="hidden" name="pw" value="invitado" />
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-outline-success" value="Registrarme &raquo" />
+                </div>
+
+            </form>
         </div>
 
         <div class="col-md-4 text-muted">
-            <h3> Testing Users</h3>
+            <h5> Testing Users</h5>
             <hr />
             <h5>Usuario Rol Administrador</h5>
             <p><strong>User:</strong> admin@uned.cr</p>
@@ -59,7 +67,7 @@
 
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 mb-5">
             <h3>Login</h3>
             <hr />
 
@@ -68,7 +76,7 @@
 
             <form action="@Url.Content("~/Acceso/Login")" method="post" class="container-fluid">
                 <div class="form-group">
-                    <label>Usuario</label> <br />
+                    <label>Email</label> <br />
                     <input type="email" name="user" value="" />
                 </div>
 

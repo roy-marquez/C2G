@@ -30,6 +30,16 @@ textarea {
     box-sizing: border-box !important;
 }
 
+/* Estilo para los form-control */
+.frmctrl {
+    margin: 1em;
+    padding: 1em;
+}
+
+input {
+    padding: 1em;
+}
+
 footer {
     border-top-width: 5px;
     border-top-style: solid;
