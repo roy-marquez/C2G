@@ -10,7 +10,7 @@
         <EntityTypeShape EntityType="Car2GoDBModel.Modulo" Width="1.5" PointX="3" PointY="16" IsExpanded="true" />
         <EntityTypeShape EntityType="Car2GoDBModel.Operacion" Width="1.5" PointX="5.875" PointY="16.125" IsExpanded="true" />
         <EntityTypeShape EntityType="Car2GoDBModel.Reserva" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Car2GoDBModel.ReservaAccesorio" Width="1.5" PointX="5.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Car2GoDBModel.ReservaAccesorio" Width="1.75" PointX="5.75" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="Car2GoDBModel.ReservaServicio" Width="1.5" PointX="5.75" PointY="6.625" IsExpanded="true" />
         <EntityTypeShape EntityType="Car2GoDBModel.Rol" Width="1.5" PointX="5.875" PointY="11" IsExpanded="true" />
         <EntityTypeShape EntityType="Car2GoDBModel.RolOperacion" Width="1.5" PointX="6" PointY="13.375" IsExpanded="true" />
