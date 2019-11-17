@@ -28,7 +28,7 @@ namespace C2G.Models
         public string combustible { get; set; }
         public string color { get; set; }
         public Nullable<System.DateTime> anio { get; set; }
-        public Nullable<byte> rack { get; set; }
+        public byte rack { get; set; }
         public string tipo { get; set; }
         public string imagen_ruta { get; set; }
         public string lugar { get; set; }

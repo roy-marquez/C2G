@@ -32,10 +32,13 @@ namespace C2G.Models
         public System.DateTime fecha_devolucion { get; set; }
         public System.TimeSpan hora_devolucion { get; set; }
         public decimal cargos_servicios { get; set; }
-        public decimal cargos_accesorios { get; set; }
+        public Nullable<decimal> cargos_accesorios { get; set; }
+        public decimal cargos_subtotal { get; set; }
+        public Nullable<decimal> descuento { get; set; }
+        public Nullable<decimal> cargos_atraso { get; set; }
+        public Nullable<decimal> cargos_deperfecto { get; set; }
         public decimal cargos_total { get; set; }
         public string estado { get; set; }
-        public Nullable<int> descuento { get; set; }
     
         public virtual Auto Auto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
