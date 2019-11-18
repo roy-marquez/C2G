@@ -8,7 +8,16 @@ namespace C2G.Models.ViewModels
 {
     public class ListReservaViewModel
     {
+        //DATOS DEL CLIENTE
+        public string Nombre { get; set; }
 
+        [Display(Name = "Primer Apellido")]
+        public string Apellido1 { get; set; }
+
+        [Display(Name = "Segundo Apellido")]
+        public string Apellido2 { get; set; }
+
+        public string Email { get; set; }
 
         [Required]
         public int IdReserva { get; set; }
@@ -29,17 +38,20 @@ namespace C2G.Models.ViewModels
         [DataType(DataType.Date)]
         [Display(Name = "Fecha de retiro")]
         [Required(ErrorMessage = "Campo obligatorio")]
-        public DateTime FechaRetiro { get; set; }
+        public DateTime? FechaRetiro { get; set; }
 
         // Recordar usar HTMLHelper Editorfor 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
         [DataType(DataType.Time)]
         [Display(Name = "Hora de retiro")]
         [Required(ErrorMessage = "Campo obligatorio")]
-        public DateTime HoraRetiro { get; set; }
+        public DateTime? HoraRetiro { get; set; }
 
         [Display(Name = "Lugar de Devolución")]
         public string LugarDevolucion{ get; set; }
+
+        [Display(Name = "Cantidad de Días")]
+        public int  CantidadDias { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
@@ -76,8 +88,8 @@ namespace C2G.Models.ViewModels
         public string Estado { get; set; }
         
         [Required(ErrorMessage = "Campo obligatorio")]
-        public List<Servicio> Servicios { get; set; }
+        public List<ReservaServicioViewModel> Servicios { get; set; }
 
-        public List<Accesorio> Accesorios { get; set; }
+        public List<ReservaAccesorioViewModel> Accesorios { get; set; }
     }
 }

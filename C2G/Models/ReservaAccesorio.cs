@@ -18,6 +18,8 @@ namespace C2G.Models
         public int id_reserva { get; set; }
         public int id_accesorio { get; set; }
         public byte cantidad { get; set; }
+        public int cantidad_dias { get; set; }
+        public decimal precio_por_dia { get; set; }
         public decimal cargo { get; set; }
     
         public virtual Accesorio Accesorio { get; set; }

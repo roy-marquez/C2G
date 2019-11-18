@@ -3,12 +3,10 @@
     ViewBag.Title = "Reservas";
 }
 
-
-
 <section class="container p-4">
-    <h2>Reservas</h2>
+    <h2>Reservas para cliente: @ViewBag.CurrentUser</h2>
 
-    <aside class="row navbar">
+    @*<aside class="row navbar">
         <div class="col-3">
             <ul class="nav navbar-nav mr-auto">
                 <li class="nav navbar-brand"> Operaciones </li>
@@ -18,63 +16,148 @@
                 <li class="nav-item"> @Html.ActionLink("Eliminar", "EliminarReserva", "Reservas", null, new { @class = "nav-link" })</li>
             </ul>
         </div>
-    </aside>
+    </aside>*@
 
     <main>
         <div class="row text-right" style="padding: 1em; text-align:right">
-            <a href="~/InventarioAutos/AgregarAuto" class="btn btn-outline-success"> <i class="far fa-plus-square"></i> Agregar</a>
+            <a href="~/Reservas/AgregarReserva" class="btn btn-outline-success"> <i class="far fa-plus-square"></i> Agregar</a>
         </div>
+
+        @*<div>
+                <h3>Datos del Cliente</h3>
+                <div class="row">
+                    <table>
+                        <tr>
+                            <td>@Html.LabelFor(model => model.ElementAt(0), "Nombre")</td>
+                        </tr>
+                        <tr>
+                            <td>@Html.LabelFor(model => model.ElementAt(1), "Apellido 1")</td>
+                        </tr>
+                        <tr>
+                            <td>@Html.LabelFor(model => model.ElementAt(2), "Apellido 2")</td>
+                        </tr>
+                        <tr>
+                            <td>@Html.LabelFor(model => model.ElementAt(3), "Email")</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>*@
 
         <div class="row">
-            <div class="col-md-12">
-                <table class="tabla table-responsive-md table-bordered table-hover">
-                    <tr class="p-2">
-                        <th class="p-1">#</th>
-                        <th class="p-1">Placa</th>
-                        <th class="p-1">Marca</th>
-                        <th class="p-1">Modelo</th>
-                        <th class="p-1">Transmisión</th>
-                        <th class="p-1">Combustible</th>
-                        <th class="p-1">Color</th>
-                        <th class="p-1">Año</th>
-                        <th class="p-1">Rack</th>
-                        <th class="p-1">Tipo</th>
-                        @*<th>Foto</th>*@
-                        <th class="p-1">Lugar</th>
-                        <th class="p-1">Estado</th>
-                        <th colspan="2">Operaciones</th>
-                    </tr>
-                    @foreach (var oElemento in Model)
-                    {
+            @*<h3>Datos de Reserva</h3>*@
+            <div class="col-md-12 align-content-center">
+
+                @foreach (var oElemento in Model)
+                {   
+                    //TABLA DE CABECERA DE RESERVA
+                    <table class="tabla table-responsive-md table-bordered table-hover text-center">
+
                         <tr>
+                            <td class="p-1" colspan="12"> <strong>Detalle de reserva</strong></td>
+
+                        </tr>
+                        <tr class="p-2">
+                            <th class="p-1">IdReserva</th>
+                            <th class="p-1">Fecha y Hora</th>
+                            <th class="p-1">IdAuto</th>
+                            <th class="p-1">Lugar Retiro</th>
+                            <th class="p-1">Fecha Retiro</th>
+                            <th class="p-1">Hora Retiro</th>
+                            <th class="p-1">Lugar Devolucion</th>
+                            <th class="p-1">Fecha Devolucion</th>
+                            <th class="p-1">Hora Devolucion</th>
+                            <th class="p-1">Cantidad de Días</th>
+
+                            <th colspan="2">Operaciones</th>
+                        </tr>
+                        <tr>
+                            <td class="p-1">@oElemento.IdReserva</td>
+                            <td class="p-1">@oElemento.FechaHoraReserva</td>
                             <td class="p-1">@oElemento.IdAuto</td>
-                            <td class="p-1">@oElemento.Placa</td>
-                            <td class="p-1">@oElemento.Marca</td>
-                            <td class="p-1">@oElemento.Modelo</td>
-                            <td class="p-1">@oElemento.Transmision</td>
-                            <td class="p-1">@oElemento.Combustible</td>
-                            <td class="p-1">@oElemento.Color</td>
-                            <td class="p-1">@oElemento.Anio.Year</td>
-                            <td class="p-1">@oElemento.Rack</td>
-                            <td class="p-1">@oElemento.Tipo</td>
-                            @*<td>@oElemento.ImagenRuta</td>*@
-                            <td class="p-1">@oElemento.Lugar</td>
-                            <td class="p-1">@oElemento.Estado</td>
+                            <td class="p-1">@oElemento.LugarRetiro</td>
+                            <td class="p-1">@oElemento.FechaRetiro</td>
+                            <td class="p-1">@oElemento.HoraRetiro</td>
+                            <td class="p-1">@oElemento.LugarDevolucion</td>
+                            <td class="p-1">@oElemento.FechaDevolucion.Date.ToString("yyyy-MM-dd")</td>
+                            <td class="p-1">@oElemento.HoraDevolucion.TimeOfDay</td>
+                            <td class="p-1">@oElemento.CantidadDias</td>
+
                             <td>
-                                <a class="btn btn-outline-info" href="~/InventarioAutos/ModificarAuto/@oElemento.IdAuto"><i class="far fa-edit"></i> Modificar</a>
+                                <a class="btn btn-outline-info" href="~/Reservas/ModificarReserva/@oElemento.IdReserva"><i class="far fa-edit"></i> Modificar</a>
                             </td>
                             <td>
-                                <a class="btn btn-outline-danger" href="~/InventarioAutos/EliminarAuto/@oElemento.IdAuto"><i class="far fa-minus-square"></i> Eliminar</a>
+                                <a class="btn btn-outline-danger" href="~/Reservas/EliminarReserva/@oElemento.IdReserva"><i class="far fa-minus-square"></i> Cancelar</a>
                             </td>
                         </tr>
-                    }
+                    </table>
+                    <br>
+                    //TABLA DE SERVICIOS DE RESERVA
+                    <table class="tabla table-responsive-md table-bordered table-hover text-center">
+                        <tr>
+                            <th colspan="12"> Detalle de servicios: ( @oElemento.Servicios.Count )</th>
+                        </tr>
 
-                </table>
+                        <tr>
+                            <td class="p-1"> <strong>Cantidad </strong></td>
+                            <td class="p-1"> <strong>Codigo </strong></td>
+                            <td class="p-1"> <strong>Descripcion</strong> </td>
+                            <td class="p-1"> <strong>Cantidad de Días </strong></td>
+                            <td class="p-1"> <strong>Precio (Día) </strong></td>
+                            <td class="p-1"> <strong>Monto (¢)</strong> </td>
+                        </tr>
+
+                        @foreach (var oServicio in (oElemento.Servicios))
+                        {
+
+                            <tr>
+                                <td class="p-1"> @oServicio.Cantidad </td>
+                                <td class="p-1"> @oServicio.ServicioNombre </td>
+                                <td class="p-1"> @oServicio.ServicioDescripcion </td>
+                                <td class="p-1"> @oServicio.CantidadDias </td>
+                                <td class="p-1"> @oServicio.PrecioPorDia </td>
+                                <td class="p-1"> @oServicio.Cargo </td>
+                            </tr>
+                        }
+                    </table>
+                    <br>
+                    
+                    //TABLA DE ACCESORIOS DE RESERVA
+                    <table class="tabla table-responsive-md table-bordered table-hover text-center">
+                        <tr>
+                            <th colspan="12"> Detalle de Accesorios: ( @oElemento.Accesorios.Count )</th>
+                        </tr>
+
+                        <tr>
+                            <td class="p-1"> <strong>Cantidad </strong></td>
+                            <td class="p-1"> <strong>Codigo </strong></td>
+                            <td class="p-1"> <strong>Descripcion</strong> </td>
+                            <td class="p-1"> <strong>Cantidad de Días </strong></td>
+                            <td class="p-1"> <strong>Precio (Día) </strong></td>
+                            <td class="p-1"> <strong>Monto (¢)</strong> </td>
+                        </tr>
+
+                        @foreach (var oAccesorio in (oElemento.Accesorios))
+                        {
+
+                            <tr>
+                                <td class="p-1"> @oAccesorio.Cantidad </td>
+                                <td class="p-1"> @oAccesorio.AccesorioNombre </td>
+                                <td class="p-1"> @oAccesorio.AccesorioDescripcion </td>
+                                <td class="p-1"> @oAccesorio.CantidadDias </td>
+                                <td class="p-1"> @oAccesorio.PrecioPorDia </td>
+                                <td class="p-1"> @oAccesorio.Cargo </td>
+                            </tr>
+                        }
+                    </table>
+                    <br>
+
+                    <br>
+                    <hr>
+                }
+
             </div>
         </div>
+
     </main>
 
 </section>
-
-
-

@@ -27,10 +27,11 @@ namespace C2G.Models
         public int id_auto { get; set; }
         public string lugar_retiro { get; set; }
         public System.DateTime fecha_retiro { get; set; }
-        public System.DateTime hora_retiro { get; set; }
+        public Nullable<System.DateTime> hora_retiro { get; set; }
         public string lugar_devolucion { get; set; }
         public System.DateTime fecha_devolucion { get; set; }
         public System.DateTime hora_devolucion { get; set; }
+        public int cantidad_dias { get; set; }
         public decimal cargos_servicios { get; set; }
         public Nullable<decimal> cargos_accesorios { get; set; }
         public decimal cargos_subtotal { get; set; }
@@ -38,6 +39,7 @@ namespace C2G.Models
         public Nullable<decimal> cargos_atraso { get; set; }
         public Nullable<decimal> cargos_deperfecto { get; set; }
         public decimal cargos_total { get; set; }
+        public decimal monto_reembolso { get; set; }
         public string estado { get; set; }
     
         public virtual Auto Auto { get; set; }

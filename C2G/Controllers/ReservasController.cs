@@ -16,20 +16,28 @@ namespace C2G.Controllers
         public ActionResult Index()
         {
             oUsuario = (Usuario)Session["User"];
-            
+            ViewBag.CurrentUser = oUsuario.nombre;
 
             List<ListReservaViewModel> lst;
             //List<ListUsuarioViewModel> DataUsuario;
 
             using (Car2GoDBEntities db = new Car2GoDBEntities())
             {
+                //listaUsuarioReserva = 
 
-                //inner join devuelve todas las reservas de un usuario determinado
+                //inner join devuelve todas las reservas del Usuario Logueado
                 lst = (from reserva in db.Reserva
-                       join usuario_reserva in db.UsuarioReserva on reserva.id_reserva equals usuario_reserva.id_reserva
-                       join usr in db.Usuario on usuario_reserva.id_usuario equals oUsuario.id_usuario
+                           //join usuario_reserva in db.UsuarioReserva on reserva.id_reserva equals usuario_reserva.id_reserva
+                           //join usr in db.Usuario on usuario_reserva.id_usuario equals oUsuario.id_usuario
+                       //where reserva.id_reserva == db.UsuarioReserva
                        select new ListReservaViewModel
                        {
+                           //Datos de Cliente
+                           Nombre = oUsuario.nombre,
+                           Apellido1 = oUsuario.apellido1,
+                           Apellido2 = oUsuario.apellido2,
+
+                           //Datos de Reservas
                            IdReserva = reserva.id_reserva,
                            FechaHoraReserva = reserva.fecha_hora_reserva,
                            IdAuto = reserva.id_auto,
@@ -39,6 +47,7 @@ namespace C2G.Controllers
                            LugarDevolucion = reserva.lugar_devolucion,
                            FechaDevolucion = reserva.fecha_devolucion,
                            HoraDevolucion = reserva.hora_devolucion,
+                           CantidadDias = reserva.cantidad_dias,
                            CargosServicios = reserva.cargos_servicios,
                            CargosAccesorios = reserva.cargos_accesorios,
                            CargosSubtotal = reserva.cargos_subtotal,
@@ -46,7 +55,34 @@ namespace C2G.Controllers
                            CargosAtraso = reserva.cargos_atraso,
                            CargosDesperfecto = reserva.cargos_deperfecto,
                            CargosTotal = reserva.cargos_total,
-                           Estado = reserva.estado
+                           Estado = reserva.estado,
+                          
+                           //Detalle de servicios de la reserva
+                           Servicios = (from servicio in db.ReservaServicio
+                                       where servicio.id_reserva == reserva.id_reserva
+                                       select new ReservaServicioViewModel
+                                       {
+                                           Cantidad = servicio.cantidad,
+                                           ServicioNombre = servicio.Servicio.nombre,
+                                           ServicioDescripcion = servicio.Servicio.descripcion,
+                                           CantidadDias = servicio.cantidad_dias,
+                                           PrecioPorDia = servicio.precio_por_dia,
+                                           Cargo = servicio.cargo
+
+                                       }).ToList(),
+                           //Detalle de accesorios de la reserva
+                           Accesorios = (from accesorio in db.ReservaAccesorio
+                                         where accesorio.id_reserva == reserva.id_reserva
+                                         select new ReservaAccesorioViewModel
+                                         {
+                                             Cantidad = accesorio.cantidad,
+                                             AccesorioNombre = accesorio.Accesorio.nombre,
+                                             AccesorioDescripcion = accesorio.Accesorio.descripcion,
+                                             CantidadDias = accesorio.cantidad_dias,
+                                             PrecioPorDia = accesorio.precio_por_dia,
+                                             Cargo = accesorio.cargo
+                                         }).ToList()
+
                        }).ToList();
             }
 

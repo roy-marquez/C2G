@@ -35,6 +35,8 @@ namespace C2G.Models.ViewModels
 
         public DateTime HoraDevolucion { get; set; }
 
+        public int  CantidadDias { get; set; }
+
         public decimal CargosServicios { get; set; }
 
         public decimal CargosAccesorios { get; set; }
@@ -48,6 +50,8 @@ namespace C2G.Models.ViewModels
         public decimal CargosDesperfecto { get; set; }
 
         public decimal CargosTotal { get; set; }
+
+        public decimal MontoReembolso { get; set; }
 
         public string Estado { get; set; }
 

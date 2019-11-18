@@ -51,15 +51,16 @@
           <Key>
             <PropertyRef Name="id_reserva" />
           </Key>
-          <Property Name="id_reserva" Type="int" Nullable="false" />
+          <Property Name="id_reserva" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="fecha_hora_reserva" Type="datetime" Nullable="false" />
           <Property Name="id_auto" Type="int" Nullable="false" />
           <Property Name="lugar_retiro" Type="nvarchar" MaxLength="50" />
           <Property Name="fecha_retiro" Type="date" Nullable="false" />
-          <Property Name="hora_retiro" Type="datetime" Nullable="false" />
+          <Property Name="hora_retiro" Type="datetime" />
           <Property Name="lugar_devolucion" Type="nvarchar" MaxLength="50" />
           <Property Name="fecha_devolucion" Type="date" Nullable="false" />
           <Property Name="hora_devolucion" Type="datetime" Nullable="false" />
+          <Property Name="cantidad_dias" Type="int" Nullable="false" />
           <Property Name="cargos_servicios" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="cargos_accesorios" Type="decimal" Precision="10" Scale="2" />
           <Property Name="cargos_subtotal" Type="decimal" Precision="10" Scale="2" Nullable="false" />
@@ -67,6 +68,7 @@
           <Property Name="cargos_atraso" Type="decimal" Precision="10" Scale="2" />
           <Property Name="cargos_deperfecto" Type="decimal" Precision="10" Scale="2" />
           <Property Name="cargos_total" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="monto_reembolso" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="estado" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="ReservaAccesorio">
@@ -77,6 +79,8 @@
           <Property Name="id_reserva" Type="int" Nullable="false" />
           <Property Name="id_accesorio" Type="int" Nullable="false" />
           <Property Name="cantidad" Type="tinyint" Nullable="false" />
+          <Property Name="cantidad_dias" Type="int" Nullable="false" />
+          <Property Name="precio_por_dia" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="cargo" Type="decimal" Precision="10" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="ReservaServicio">
@@ -87,6 +91,8 @@
           <Property Name="id_reserva" Type="int" Nullable="false" />
           <Property Name="id_servicio" Type="int" Nullable="false" />
           <Property Name="cantidad" Type="tinyint" Nullable="false" />
+          <Property Name="cantidad_dias" Type="int" Nullable="false" />
+          <Property Name="precio_por_dia" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="cargo" Type="decimal" Precision="10" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="Rol">
@@ -339,17 +345,11 @@
           <EntitySet Name="Auto" EntityType="Car2GoDBModel.Auto" />
           <EntitySet Name="Modulo" EntityType="Car2GoDBModel.Modulo" />
           <EntitySet Name="Operacion" EntityType="Car2GoDBModel.Operacion" />
-          <EntitySet Name="ReservaAccesorio" EntityType="Car2GoDBModel.ReservaAccesorio" />
-          <EntitySet Name="ReservaServicio" EntityType="Car2GoDBModel.ReservaServicio" />
           <EntitySet Name="Rol" EntityType="Car2GoDBModel.Rol" />
           <EntitySet Name="RolOperacion" EntityType="Car2GoDBModel.RolOperacion" />
           <EntitySet Name="Servicio" EntityType="Car2GoDBModel.Servicio" />
           <EntitySet Name="Usuario" EntityType="Car2GoDBModel.Usuario" />
           <EntitySet Name="UsuarioReserva" EntityType="Car2GoDBModel.UsuarioReserva" />
-          <AssociationSet Name="FK_ReservaAccesorio_Accesorio" Association="Car2GoDBModel.FK_ReservaAccesorio_Accesorio">
-            <End Role="Accesorio" EntitySet="Accesorio" />
-            <End Role="ReservaAccesorio" EntitySet="ReservaAccesorio" />
-          </AssociationSet>
           <AssociationSet Name="FK_Operacion_Modulo" Association="Car2GoDBModel.FK_Operacion_Modulo">
             <End Role="Modulo" EntitySet="Modulo" />
             <End Role="Operacion" EntitySet="Operacion" />
@@ -357,10 +357,6 @@
           <AssociationSet Name="FK_RolOperacion_Operacion" Association="Car2GoDBModel.FK_RolOperacion_Operacion">
             <End Role="Operacion" EntitySet="Operacion" />
             <End Role="RolOperacion" EntitySet="RolOperacion" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ReservaServicio_Servicio" Association="Car2GoDBModel.FK_ReservaServicio_Servicio">
-            <End Role="Servicio" EntitySet="Servicio" />
-            <End Role="ReservaServicio" EntitySet="ReservaServicio" />
           </AssociationSet>
           <AssociationSet Name="FK_RolOperacion_Rol" Association="Car2GoDBModel.FK_RolOperacion_Rol">
             <End Role="Rol" EntitySet="Rol" />
@@ -375,6 +371,12 @@
             <End Role="UsuarioReserva" EntitySet="UsuarioReserva" />
           </AssociationSet>
           <EntitySet Name="Reserva" EntityType="Car2GoDBModel.Reserva" />
+          <EntitySet Name="ReservaAccesorio" EntityType="Car2GoDBModel.ReservaAccesorio" />
+          <EntitySet Name="ReservaServicio" EntityType="Car2GoDBModel.ReservaServicio" />
+          <AssociationSet Name="FK_ReservaAccesorio_Accesorio" Association="Car2GoDBModel.FK_ReservaAccesorio_Accesorio">
+            <End Role="Accesorio" EntitySet="Accesorio" />
+            <End Role="ReservaAccesorio" EntitySet="ReservaAccesorio" />
+          </AssociationSet>
           <AssociationSet Name="FK_Reserva_Auto" Association="Car2GoDBModel.FK_Reserva_Auto">
             <End Role="Auto" EntitySet="Auto" />
             <End Role="Reserva" EntitySet="Reserva" />
@@ -391,7 +393,11 @@
             <End Role="Reserva" EntitySet="Reserva" />
             <End Role="UsuarioReserva" EntitySet="UsuarioReserva" />
           </AssociationSet>
-        </EntityContainer>
+          <AssociationSet Name="FK_ReservaServicio_Servicio" Association="Car2GoDBModel.FK_ReservaServicio_Servicio">
+            <End Role="Servicio" EntitySet="Servicio" />
+            <End Role="ReservaServicio" EntitySet="ReservaServicio" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Accesorio">
           <Key>
             <PropertyRef Name="id_accesorio" />
@@ -438,30 +444,6 @@
           <Property Name="id_modulo" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Modulo" Relationship="Car2GoDBModel.FK_Operacion_Modulo" FromRole="Operacion" ToRole="Modulo" />
           <NavigationProperty Name="RolOperacion" Relationship="Car2GoDBModel.FK_RolOperacion_Operacion" FromRole="Operacion" ToRole="RolOperacion" />
-        </EntityType>
-        <EntityType Name="ReservaAccesorio">
-          <Key>
-            <PropertyRef Name="id_reserva_accesorio" />
-          </Key>
-          <Property Name="id_reserva_accesorio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_reserva" Type="Int32" Nullable="false" />
-          <Property Name="id_accesorio" Type="Int32" Nullable="false" />
-          <Property Name="cantidad" Type="Byte" Nullable="false" />
-          <Property Name="cargo" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <NavigationProperty Name="Accesorio" Relationship="Car2GoDBModel.FK_ReservaAccesorio_Accesorio" FromRole="ReservaAccesorio" ToRole="Accesorio" />
-          <NavigationProperty Name="Reserva" Relationship="Car2GoDBModel.FK_ReservaAccesorio_Reserva" FromRole="ReservaAccesorio" ToRole="Reserva" />
-        </EntityType>
-        <EntityType Name="ReservaServicio">
-          <Key>
-            <PropertyRef Name="id_reserva_servicio" />
-          </Key>
-          <Property Name="id_reserva_servicio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_reserva" Type="Int32" Nullable="false" />
-          <Property Name="id_servicio" Type="Int32" Nullable="false" />
-          <Property Name="cantidad" Type="Byte" Nullable="false" />
-          <Property Name="cargo" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <NavigationProperty Name="Servicio" Relationship="Car2GoDBModel.FK_ReservaServicio_Servicio" FromRole="ReservaServicio" ToRole="Servicio" />
-          <NavigationProperty Name="Reserva" Relationship="Car2GoDBModel.FK_ReservaServicio_Reserva" FromRole="ReservaServicio" ToRole="Reserva" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -523,18 +505,6 @@
           <NavigationProperty Name="Usuario" Relationship="Car2GoDBModel.FK_UsuarioReserva_Usuario" FromRole="UsuarioReserva" ToRole="Usuario" />
           <NavigationProperty Name="Reserva" Relationship="Car2GoDBModel.FK_UsuarioReserva_Reserva" FromRole="UsuarioReserva" ToRole="Reserva" />
         </EntityType>
-        <Association Name="FK_ReservaAccesorio_Accesorio">
-          <End Type="Car2GoDBModel.Accesorio" Role="Accesorio" Multiplicity="1" />
-          <End Type="Car2GoDBModel.ReservaAccesorio" Role="ReservaAccesorio" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accesorio">
-              <PropertyRef Name="id_accesorio" />
-            </Principal>
-            <Dependent Role="ReservaAccesorio">
-              <PropertyRef Name="id_accesorio" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Operacion_Modulo">
           <End Type="Car2GoDBModel.Modulo" Role="Modulo" Multiplicity="1" />
           <End Type="Car2GoDBModel.Operacion" Role="Operacion" Multiplicity="*" />
@@ -556,18 +526,6 @@
             </Principal>
             <Dependent Role="RolOperacion">
               <PropertyRef Name="id_operacion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ReservaServicio_Servicio">
-          <End Type="Car2GoDBModel.Servicio" Role="Servicio" Multiplicity="1" />
-          <End Type="Car2GoDBModel.ReservaServicio" Role="ReservaServicio" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Servicio">
-              <PropertyRef Name="id_servicio" />
-            </Principal>
-            <Dependent Role="ReservaServicio">
-              <PropertyRef Name="id_servicio" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -611,15 +569,16 @@
           <Key>
             <PropertyRef Name="id_reserva" />
           </Key>
-          <Property Name="id_reserva" Type="Int32" Nullable="false" />
+          <Property Name="id_reserva" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fecha_hora_reserva" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="id_auto" Type="Int32" Nullable="false" />
           <Property Name="lugar_retiro" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fecha_retiro" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="hora_retiro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="hora_retiro" Type="DateTime" Precision="3" />
           <Property Name="lugar_devolucion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fecha_devolucion" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="hora_devolucion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="cantidad_dias" Type="Int32" Nullable="false" />
           <Property Name="cargos_servicios" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
           <Property Name="cargos_accesorios" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="cargos_subtotal" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
@@ -627,12 +586,53 @@
           <Property Name="cargos_atraso" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="cargos_deperfecto" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="cargos_total" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="monto_reembolso" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
           <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Auto" Relationship="Car2GoDBModel.FK_Reserva_Auto" FromRole="Reserva" ToRole="Auto" />
           <NavigationProperty Name="ReservaAccesorio" Relationship="Car2GoDBModel.FK_ReservaAccesorio_Reserva" FromRole="Reserva" ToRole="ReservaAccesorio" />
           <NavigationProperty Name="ReservaServicio" Relationship="Car2GoDBModel.FK_ReservaServicio_Reserva" FromRole="Reserva" ToRole="ReservaServicio" />
           <NavigationProperty Name="UsuarioReserva" Relationship="Car2GoDBModel.FK_UsuarioReserva_Reserva" FromRole="Reserva" ToRole="UsuarioReserva" />
         </EntityType>
+        <EntityType Name="ReservaAccesorio">
+          <Key>
+            <PropertyRef Name="id_reserva_accesorio" />
+          </Key>
+          <Property Name="id_reserva_accesorio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_reserva" Type="Int32" Nullable="false" />
+          <Property Name="id_accesorio" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Byte" Nullable="false" />
+          <Property Name="cantidad_dias" Type="Int32" Nullable="false" />
+          <Property Name="precio_por_dia" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="cargo" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="Accesorio" Relationship="Car2GoDBModel.FK_ReservaAccesorio_Accesorio" FromRole="ReservaAccesorio" ToRole="Accesorio" />
+          <NavigationProperty Name="Reserva" Relationship="Car2GoDBModel.FK_ReservaAccesorio_Reserva" FromRole="ReservaAccesorio" ToRole="Reserva" />
+        </EntityType>
+        <EntityType Name="ReservaServicio">
+          <Key>
+            <PropertyRef Name="id_reserva_servicio" />
+          </Key>
+          <Property Name="id_reserva_servicio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_reserva" Type="Int32" Nullable="false" />
+          <Property Name="id_servicio" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Byte" Nullable="false" />
+          <Property Name="cantidad_dias" Type="Int32" Nullable="false" />
+          <Property Name="precio_por_dia" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="cargo" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="Reserva" Relationship="Car2GoDBModel.FK_ReservaServicio_Reserva" FromRole="ReservaServicio" ToRole="Reserva" />
+          <NavigationProperty Name="Servicio" Relationship="Car2GoDBModel.FK_ReservaServicio_Servicio" FromRole="ReservaServicio" ToRole="Servicio" />
+        </EntityType>
+        <Association Name="FK_ReservaAccesorio_Accesorio">
+          <End Type="Car2GoDBModel.Accesorio" Role="Accesorio" Multiplicity="1" />
+          <End Type="Car2GoDBModel.ReservaAccesorio" Role="ReservaAccesorio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accesorio">
+              <PropertyRef Name="id_accesorio" />
+            </Principal>
+            <Dependent Role="ReservaAccesorio">
+              <PropertyRef Name="id_accesorio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Reserva_Auto">
           <End Type="Car2GoDBModel.Auto" Role="Auto" Multiplicity="1" />
           <End Type="Car2GoDBModel.Reserva" Role="Reserva" Multiplicity="*" />
@@ -681,7 +681,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_ReservaServicio_Servicio">
+          <End Type="Car2GoDBModel.Servicio" Role="Servicio" Multiplicity="1" />
+          <End Type="Car2GoDBModel.ReservaServicio" Role="ReservaServicio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servicio">
+              <PropertyRef Name="id_servicio" />
+            </Principal>
+            <Dependent Role="ReservaServicio">
+              <PropertyRef Name="id_servicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -730,28 +742,6 @@
                 <ScalarProperty Name="id_modulo" ColumnName="id_modulo" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="id_operacion" ColumnName="id_operacion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ReservaAccesorio">
-            <EntityTypeMapping TypeName="Car2GoDBModel.ReservaAccesorio">
-              <MappingFragment StoreEntitySet="ReservaAccesorio">
-                <ScalarProperty Name="cargo" ColumnName="cargo" />
-                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
-                <ScalarProperty Name="id_accesorio" ColumnName="id_accesorio" />
-                <ScalarProperty Name="id_reserva" ColumnName="id_reserva" />
-                <ScalarProperty Name="id_reserva_accesorio" ColumnName="id_reserva_accesorio" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ReservaServicio">
-            <EntityTypeMapping TypeName="Car2GoDBModel.ReservaServicio">
-              <MappingFragment StoreEntitySet="ReservaServicio">
-                <ScalarProperty Name="cargo" ColumnName="cargo" />
-                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
-                <ScalarProperty Name="id_servicio" ColumnName="id_servicio" />
-                <ScalarProperty Name="id_reserva" ColumnName="id_reserva" />
-                <ScalarProperty Name="id_reserva_servicio" ColumnName="id_reserva_servicio" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -815,6 +805,7 @@
             <EntityTypeMapping TypeName="Car2GoDBModel.Reserva">
               <MappingFragment StoreEntitySet="Reserva">
                 <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="monto_reembolso" ColumnName="monto_reembolso" />
                 <ScalarProperty Name="cargos_total" ColumnName="cargos_total" />
                 <ScalarProperty Name="cargos_deperfecto" ColumnName="cargos_deperfecto" />
                 <ScalarProperty Name="cargos_atraso" ColumnName="cargos_atraso" />
@@ -822,6 +813,7 @@
                 <ScalarProperty Name="cargos_subtotal" ColumnName="cargos_subtotal" />
                 <ScalarProperty Name="cargos_accesorios" ColumnName="cargos_accesorios" />
                 <ScalarProperty Name="cargos_servicios" ColumnName="cargos_servicios" />
+                <ScalarProperty Name="cantidad_dias" ColumnName="cantidad_dias" />
                 <ScalarProperty Name="hora_devolucion" ColumnName="hora_devolucion" />
                 <ScalarProperty Name="fecha_devolucion" ColumnName="fecha_devolucion" />
                 <ScalarProperty Name="lugar_devolucion" ColumnName="lugar_devolucion" />
@@ -831,6 +823,32 @@
                 <ScalarProperty Name="id_auto" ColumnName="id_auto" />
                 <ScalarProperty Name="fecha_hora_reserva" ColumnName="fecha_hora_reserva" />
                 <ScalarProperty Name="id_reserva" ColumnName="id_reserva" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReservaAccesorio">
+            <EntityTypeMapping TypeName="Car2GoDBModel.ReservaAccesorio">
+              <MappingFragment StoreEntitySet="ReservaAccesorio">
+                <ScalarProperty Name="cargo" ColumnName="cargo" />
+                <ScalarProperty Name="precio_por_dia" ColumnName="precio_por_dia" />
+                <ScalarProperty Name="cantidad_dias" ColumnName="cantidad_dias" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="id_accesorio" ColumnName="id_accesorio" />
+                <ScalarProperty Name="id_reserva" ColumnName="id_reserva" />
+                <ScalarProperty Name="id_reserva_accesorio" ColumnName="id_reserva_accesorio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReservaServicio">
+            <EntityTypeMapping TypeName="Car2GoDBModel.ReservaServicio">
+              <MappingFragment StoreEntitySet="ReservaServicio">
+                <ScalarProperty Name="cargo" ColumnName="cargo" />
+                <ScalarProperty Name="precio_por_dia" ColumnName="precio_por_dia" />
+                <ScalarProperty Name="cantidad_dias" ColumnName="cantidad_dias" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="id_servicio" ColumnName="id_servicio" />
+                <ScalarProperty Name="id_reserva" ColumnName="id_reserva" />
+                <ScalarProperty Name="id_reserva_servicio" ColumnName="id_reserva_servicio" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
