@@ -18,7 +18,7 @@ namespace C2G.Models
         public int id_usuario { get; set; }
         public int id_reserva { get; set; }
     
-        public virtual Reserva Reserva { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual Reserva Reserva { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace C2G.Filters
     public class VerificaSession : ActionFilterAttribute
     {
         private Usuario oUsuario;
+ 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             try

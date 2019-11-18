@@ -29,7 +29,6 @@ namespace C2G.Models
         public virtual DbSet<Auto> Auto { get; set; }
         public virtual DbSet<Modulo> Modulo { get; set; }
         public virtual DbSet<Operacion> Operacion { get; set; }
-        public virtual DbSet<Reserva> Reserva { get; set; }
         public virtual DbSet<ReservaAccesorio> ReservaAccesorio { get; set; }
         public virtual DbSet<ReservaServicio> ReservaServicio { get; set; }
         public virtual DbSet<Rol> Rol { get; set; }
@@ -37,5 +36,6 @@ namespace C2G.Models
         public virtual DbSet<Servicio> Servicio { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<UsuarioReserva> UsuarioReserva { get; set; }
+        public virtual DbSet<Reserva> Reserva { get; set; }
     }
 }

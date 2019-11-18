@@ -1,30 +1,80 @@
-﻿
+﻿@model List<C2G.Models.ViewModels.ListReservaViewModel>
 @{
     ViewBag.Title = "Reservas";
 }
 
 
 
-    <section class="container p-4">
-        <h2>Reservas</h2>
+<section class="container p-4">
+    <h2>Reservas</h2>
 
-        <aside class="row navbar">
-            <div class="col-3">
-                <ul class="nav navbar-nav mr-auto">
-                    <li class="nav navbar-brand"> Operaciones </li>    
-                    <li class="nav-item"> @Html.ActionLink("Agregar", "AgregarReserva", "Reservas", null, new { @class = "nav-link" })</li>
-                    <li class="nav-item"> @Html.ActionLink("Consultar", "ConsultarReserva", "Reservas", null, new { @class = "nav-link" })</li>
-                    <li class="nav-item"> @Html.ActionLink("Modificar", "ModificarReserva", "Reservas", null, new { @class = "nav-link" }) </li>
-                    <li class="nav-item"> @Html.ActionLink("Eliminar", "EliminarReserva", "Reservas", null, new { @class = "nav-link" })</li>
-                </ul>
+    <aside class="row navbar">
+        <div class="col-3">
+            <ul class="nav navbar-nav mr-auto">
+                <li class="nav navbar-brand"> Operaciones </li>
+                <li class="nav-item"> @Html.ActionLink("Agregar", "AgregarReserva", "Reservas", null, new { @class = "nav-link" })</li>
+                <li class="nav-item"> @Html.ActionLink("Consultar", "ConsultarReserva", "Reservas", null, new { @class = "nav-link" })</li>
+                <li class="nav-item"> @Html.ActionLink("Modificar", "ModificarReserva", "Reservas", null, new { @class = "nav-link" }) </li>
+                <li class="nav-item"> @Html.ActionLink("Eliminar", "EliminarReserva", "Reservas", null, new { @class = "nav-link" })</li>
+            </ul>
+        </div>
+    </aside>
+
+    <main>
+        <div class="row text-right" style="padding: 1em; text-align:right">
+            <a href="~/InventarioAutos/AgregarAuto" class="btn btn-outline-success"> <i class="far fa-plus-square"></i> Agregar</a>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="tabla table-responsive-md table-bordered table-hover">
+                    <tr class="p-2">
+                        <th class="p-1">#</th>
+                        <th class="p-1">Placa</th>
+                        <th class="p-1">Marca</th>
+                        <th class="p-1">Modelo</th>
+                        <th class="p-1">Transmisión</th>
+                        <th class="p-1">Combustible</th>
+                        <th class="p-1">Color</th>
+                        <th class="p-1">Año</th>
+                        <th class="p-1">Rack</th>
+                        <th class="p-1">Tipo</th>
+                        @*<th>Foto</th>*@
+                        <th class="p-1">Lugar</th>
+                        <th class="p-1">Estado</th>
+                        <th colspan="2">Operaciones</th>
+                    </tr>
+                    @foreach (var oElemento in Model)
+                    {
+                        <tr>
+                            <td class="p-1">@oElemento.IdAuto</td>
+                            <td class="p-1">@oElemento.Placa</td>
+                            <td class="p-1">@oElemento.Marca</td>
+                            <td class="p-1">@oElemento.Modelo</td>
+                            <td class="p-1">@oElemento.Transmision</td>
+                            <td class="p-1">@oElemento.Combustible</td>
+                            <td class="p-1">@oElemento.Color</td>
+                            <td class="p-1">@oElemento.Anio.Year</td>
+                            <td class="p-1">@oElemento.Rack</td>
+                            <td class="p-1">@oElemento.Tipo</td>
+                            @*<td>@oElemento.ImagenRuta</td>*@
+                            <td class="p-1">@oElemento.Lugar</td>
+                            <td class="p-1">@oElemento.Estado</td>
+                            <td>
+                                <a class="btn btn-outline-info" href="~/InventarioAutos/ModificarAuto/@oElemento.IdAuto"><i class="far fa-edit"></i> Modificar</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-danger" href="~/InventarioAutos/EliminarAuto/@oElemento.IdAuto"><i class="far fa-minus-square"></i> Eliminar</a>
+                            </td>
+                        </tr>
+                    }
+
+                </table>
             </div>
-        </aside>
+        </div>
+    </main>
 
-        <main>
-
-        </main>
-
-    </section>
+</section>
 
 
 

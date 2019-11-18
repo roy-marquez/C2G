@@ -195,8 +195,9 @@
     </Compile>
     <Compile Include="Models\ViewModels\AutoViewModel.cs" />
     <Compile Include="Models\ViewModels\ListAutoViewModel.cs" />
+    <Compile Include="Models\ViewModels\ReservaViewModel.cs" />
     <Compile Include="Models\ViewModels\ListUsuarioViewModel.cs" />
-    <Compile Include="Models\ViewModels\Reserva.cs" />
+    <Compile Include="Models\ViewModels\ListReservaViewModel.cs" />
     <Compile Include="Models\ViewModels\UsuarioViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

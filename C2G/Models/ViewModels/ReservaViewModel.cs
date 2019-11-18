@@ -5,8 +5,18 @@ using System.Web;
 
 namespace C2G.Models.ViewModels
 {
-    public class Reserva
+    public class ReservaViewModel
     {
+        //DATOS DEL CLIENTE
+        public string Nombre { get; set; }
+
+        public string Apellido1 { get; set; }
+
+        public string Apellido2 { get; set; }
+
+        public string Email { get; set; }
+
+        //DATOS DE RESERVA
         public int IdReserva { get; set; }
 
         public DateTime FechaHoraReserva { get; set; }
@@ -29,11 +39,17 @@ namespace C2G.Models.ViewModels
 
         public decimal CargosAccesorios { get; set; }
 
+        public decimal CargosSubtotal { get; set; }
+        
+        public decimal Descuento { get; set; }
+        
+        public decimal CargosAtraso { get; set; }
+        
+        public decimal CargosDesperfecto { get; set; }
+
         public decimal CargosTotal { get; set; }
 
         public string Estado { get; set; }
-
-        public decimal Descuento { get; set; }
 
         public List<Servicio> Servicios { get; set; }
 
