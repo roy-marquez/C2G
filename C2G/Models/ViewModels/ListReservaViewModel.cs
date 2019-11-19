@@ -38,14 +38,14 @@ namespace C2G.Models.ViewModels
         [DataType(DataType.Date)]
         [Display(Name = "Fecha de retiro")]
         [Required(ErrorMessage = "Campo obligatorio")]
-        public DateTime? FechaRetiro { get; set; }
+        public DateTime FechaRetiro { get; set; }
 
         // Recordar usar HTMLHelper Editorfor 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
         [DataType(DataType.Time)]
         [Display(Name = "Hora de retiro")]
         [Required(ErrorMessage = "Campo obligatorio")]
-        public DateTime? HoraRetiro { get; set; }
+        public DateTime HoraRetiro { get; set; }
 
         [Display(Name = "Lugar de Devolución")]
         public string LugarDevolucion{ get; set; }
@@ -82,6 +82,8 @@ namespace C2G.Models.ViewModels
 
         [Required(ErrorMessage = "Campo obligatorio")]
         public decimal CargosTotal { get; set; }
+
+        public decimal MontoReembolso { get; set; }
 
         [StringLength(20, ErrorMessage = "Máximo 20 carácteres")]
         [Required(ErrorMessage = "Campo obligatorio")]

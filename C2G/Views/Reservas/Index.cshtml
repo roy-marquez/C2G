@@ -4,58 +4,47 @@
 }
 
 <section class="container p-4">
-    <h2>Reservas para cliente: @ViewBag.CurrentUser</h2>
-
-    @*<aside class="row navbar">
-        <div class="col-3">
-            <ul class="nav navbar-nav mr-auto">
-                <li class="nav navbar-brand"> Operaciones </li>
-                <li class="nav-item"> @Html.ActionLink("Agregar", "AgregarReserva", "Reservas", null, new { @class = "nav-link" })</li>
-                <li class="nav-item"> @Html.ActionLink("Consultar", "ConsultarReserva", "Reservas", null, new { @class = "nav-link" })</li>
-                <li class="nav-item"> @Html.ActionLink("Modificar", "ModificarReserva", "Reservas", null, new { @class = "nav-link" }) </li>
-                <li class="nav-item"> @Html.ActionLink("Eliminar", "EliminarReserva", "Reservas", null, new { @class = "nav-link" })</li>
-            </ul>
-        </div>
-    </aside>*@
 
     <main>
         <div class="row text-right" style="padding: 1em; text-align:right">
-            <a href="~/Reservas/AgregarReserva" class="btn btn-outline-success"> <i class="far fa-plus-square"></i> Agregar</a>
+            <a href="~/Reservas/AgregarReserva" class="btn btn-outline-success"> <i class="far fa-plus-square"></i> Nueva Reserva </a>
         </div>
 
-        @*<div>
-                <h3>Datos del Cliente</h3>
-                <div class="row">
-                    <table>
-                        <tr>
-                            <td>@Html.LabelFor(model => model.ElementAt(0), "Nombre")</td>
-                        </tr>
-                        <tr>
-                            <td>@Html.LabelFor(model => model.ElementAt(1), "Apellido 1")</td>
-                        </tr>
-                        <tr>
-                            <td>@Html.LabelFor(model => model.ElementAt(2), "Apellido 2")</td>
-                        </tr>
-                        <tr>
-                            <td>@Html.LabelFor(model => model.ElementAt(3), "Email")</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>*@
-
+        <div class="col-md-12 align-content-center">
+            @{var cliente = Model.FirstOrDefault(); }
+            <div class="row">
+                @*TABLA DE CABECERA DE RESERVA*@
+                <table class="table table-responsive-md table-bordered table-hover text-center mb-4 bg-light">
+                    <tr>
+                        <th class="p-2 bg-success" colspan="4"> Datos del cliente </th>
+                    </tr>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Primer Apellido:</th>
+                        <th>Segundo Apellido:</th>
+                        <th>Email:</th>
+                    </tr>
+                    <tr>
+                        <td>@cliente.Nombre</td>
+                        <td>@cliente.Apellido1</td>
+                        <td>@cliente.Apellido2</td>
+                        <td>@cliente.Email</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
         <div class="row">
-            @*<h3>Datos de Reserva</h3>*@
             <div class="col-md-12 align-content-center">
 
                 @foreach (var oElemento in Model)
-                {   
+                {
                     //TABLA DE CABECERA DE RESERVA
-                    <table class="tabla table-responsive-md table-bordered table-hover text-center">
+                    <table class="tabla table-responsive-md table-bordered table-hover text-center mb-2 bg-light">
 
-                        <tr>
-                            <td class="p-1" colspan="12"> <strong>Detalle de reserva</strong></td>
-
+                        <tr class="bg-info">
+                            <th class="p-2" colspan="12">Detalle de reserva</th>
                         </tr>
+
                         <tr class="p-2">
                             <th class="p-1">IdReserva</th>
                             <th class="p-1">Fecha y Hora</th>
@@ -66,7 +55,7 @@
                             <th class="p-1">Lugar Devolucion</th>
                             <th class="p-1">Fecha Devolucion</th>
                             <th class="p-1">Hora Devolucion</th>
-                            <th class="p-1">Cantidad de Días</th>
+                            <th class="p-1">Cant. Días</th>
 
                             <th colspan="2">Operaciones</th>
                         </tr>
@@ -75,8 +64,8 @@
                             <td class="p-1">@oElemento.FechaHoraReserva</td>
                             <td class="p-1">@oElemento.IdAuto</td>
                             <td class="p-1">@oElemento.LugarRetiro</td>
-                            <td class="p-1">@oElemento.FechaRetiro</td>
-                            <td class="p-1">@oElemento.HoraRetiro</td>
+                            <td class="p-1">@oElemento.FechaRetiro.Date.ToString("yyyy-MM-dd")</td>
+                            <td class="p-1">@oElemento.HoraRetiro.TimeOfDay</td>
                             <td class="p-1">@oElemento.LugarDevolucion</td>
                             <td class="p-1">@oElemento.FechaDevolucion.Date.ToString("yyyy-MM-dd")</td>
                             <td class="p-1">@oElemento.HoraDevolucion.TimeOfDay</td>
@@ -90,67 +79,91 @@
                             </td>
                         </tr>
                     </table>
-                    <br>
+
                     //TABLA DE SERVICIOS DE RESERVA
-                    <table class="tabla table-responsive-md table-bordered table-hover text-center">
+                    <table class="table table-responsive-md table-bordered table-hover text-center mb-2 bg-light rounded">
                         <tr>
-                            <th colspan="12"> Detalle de servicios: ( @oElemento.Servicios.Count )</th>
+                            <th colspan="12" class="p-2"> Detalle de servicios: ( @oElemento.Servicios.Count ) </th>
                         </tr>
 
                         <tr>
                             <td class="p-1"> <strong>Cantidad </strong></td>
                             <td class="p-1"> <strong>Codigo </strong></td>
                             <td class="p-1"> <strong>Descripcion</strong> </td>
-                            <td class="p-1"> <strong>Cantidad de Días </strong></td>
+                            <td class="p-1"> <strong>Cant. Días </strong></td>
                             <td class="p-1"> <strong>Precio (Día) </strong></td>
                             <td class="p-1"> <strong>Monto (¢)</strong> </td>
                         </tr>
 
                         @foreach (var oServicio in (oElemento.Servicios))
                         {
-
                             <tr>
                                 <td class="p-1"> @oServicio.Cantidad </td>
-                                <td class="p-1"> @oServicio.ServicioNombre </td>
-                                <td class="p-1"> @oServicio.ServicioDescripcion </td>
+                                <td class="p-1 text-left"> @oServicio.ServicioNombre </td>
+                                <td class="p-1 text-left"> @oServicio.ServicioDescripcion </td>
                                 <td class="p-1"> @oServicio.CantidadDias </td>
                                 <td class="p-1"> @oServicio.PrecioPorDia </td>
                                 <td class="p-1"> @oServicio.Cargo </td>
                             </tr>
                         }
                     </table>
-                    <br>
-                    
-                    //TABLA DE ACCESORIOS DE RESERVA
-                    <table class="tabla table-responsive-md table-bordered table-hover text-center">
-                        <tr>
-                            <th colspan="12"> Detalle de Accesorios: ( @oElemento.Accesorios.Count )</th>
-                        </tr>
 
-                        <tr>
-                            <td class="p-1"> <strong>Cantidad </strong></td>
-                            <td class="p-1"> <strong>Codigo </strong></td>
-                            <td class="p-1"> <strong>Descripcion</strong> </td>
-                            <td class="p-1"> <strong>Cantidad de Días </strong></td>
-                            <td class="p-1"> <strong>Precio (Día) </strong></td>
-                            <td class="p-1"> <strong>Monto (¢)</strong> </td>
-                        </tr>
-
-                        @foreach (var oAccesorio in (oElemento.Accesorios))
-                        {
-
+                    //Imprimo la TABLA DE ACCESORIOS solo si no viene null o vacía
+                    if (oElemento.Accesorios.Count > 0)
+                    {
+                        //TABLA DE ACCESORIOS DE RESERVA
+                        <table class="table table-responsive-md table-bordered table-hover text-center mb-2 bg-light rounded">
                             <tr>
-                                <td class="p-1"> @oAccesorio.Cantidad </td>
-                                <td class="p-1"> @oAccesorio.AccesorioNombre </td>
-                                <td class="p-1"> @oAccesorio.AccesorioDescripcion </td>
-                                <td class="p-1"> @oAccesorio.CantidadDias </td>
-                                <td class="p-1"> @oAccesorio.PrecioPorDia </td>
-                                <td class="p-1"> @oAccesorio.Cargo </td>
+                                <th colspan="12" class="p-2"> Detalle de Accesorios: ( @oElemento.Accesorios.Count )</th>
                             </tr>
-                        }
-                    </table>
-                    <br>
+                            <tr>
+                                <td class="p-1"> <strong>Cantidad </strong></td>
+                                <td class="p-1"> <strong>Codigo </strong></td>
+                                <td class="p-1"> <strong>Descripcion</strong> </td>
+                                <td class="p-1"> <strong>Cant. Días </strong></td>
+                                <td class="p-1"> <strong>Precio (Día) </strong></td>
+                                <td class="p-1"> <strong>Monto (¢)</strong> </td>
+                            </tr>
 
+                            @foreach (var oAccesorio in (oElemento.Accesorios))
+                            {
+                                <tr>
+                                    <td class="p-1"> @oAccesorio.Cantidad </td>
+                                    <td class="p-1 text-left"> @oAccesorio.AccesorioNombre </td>
+                                    <td class="p-1 text-left"> @oAccesorio.AccesorioDescripcion </td>
+                                    <td class="p-1"> @oAccesorio.CantidadDias </td>
+                                    <td class="p-1"> @oAccesorio.PrecioPorDia </td>
+                                    <td class="p-1"> @oAccesorio.Cargo </td>
+                                </tr>
+                            }
+                        </table>
+                    }
+                    //TABLA DE CARGOS EFECTUADOS
+                    <table class="table table-responsive-md table-bordered table-hover text-center mb-2 bg-light rounded">
+                        <tr>
+                            <th colspan="12" class="p-2 bg-warning"> Resumen de Cargos </th>
+                        </tr>
+                        <tr class="p-2">
+                            <th class="p-1">Cargos por Servicios</th>
+                            <th class="p-1">Cargos por Accesorios</th>
+                            <th class="p-1">Subtotal</th>
+                            <th class="p-1">Descuento</th>
+                            <th class="p-1">Cargos por Atraso</th>
+                            <th class="p-1">Cargos por Desperfectos</th>
+                            <th class="p-1">Total</th>
+                            <th class="p-1">Monto Reembolsable</th>
+                        </tr>
+                        <tr>
+                            <td class="p-1">@oElemento.CargosServicios</td>
+                            <td class="p-1">@oElemento.CargosAccesorios</td>
+                            <td class="p-1"><strong>@oElemento.CargosSubtotal</strong></td>
+                            <td class="p-1">@oElemento.Descuento</td>
+                            <td class="p-1">@oElemento.CargosAtraso</td>
+                            <td class="p-1">@oElemento.CargosDesperfecto</td>
+                            <td class="p-1"><strong>@oElemento.CargosTotal</strong></td>
+                            <td class="p-1">@oElemento.MontoReembolso</td>
+                        </tr>
+                    </table>
                     <br>
                     <hr>
                 }

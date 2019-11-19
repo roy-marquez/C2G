@@ -22,7 +22,7 @@ namespace C2G.Models
         public decimal precio_por_dia { get; set; }
         public decimal cargo { get; set; }
     
-        public virtual Reserva Reserva { get; set; }
         public virtual Servicio Servicio { get; set; }
+        public virtual Reserva Reserva { get; set; }
     }
 }

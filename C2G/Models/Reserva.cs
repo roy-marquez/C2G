@@ -27,7 +27,7 @@ namespace C2G.Models
         public int id_auto { get; set; }
         public string lugar_retiro { get; set; }
         public System.DateTime fecha_retiro { get; set; }
-        public Nullable<System.DateTime> hora_retiro { get; set; }
+        public System.DateTime hora_retiro { get; set; }
         public string lugar_devolucion { get; set; }
         public System.DateTime fecha_devolucion { get; set; }
         public System.DateTime hora_devolucion { get; set; }

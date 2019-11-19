@@ -19,15 +19,15 @@
         <AssociationConnector Association="Car2GoDBModel.FK_RolOperacion_Rol" />
         <AssociationConnector Association="Car2GoDBModel.FK_Usuario_Rol" />
         <AssociationConnector Association="Car2GoDBModel.FK_UsuarioReserva_Usuario" />
-        <EntityTypeShape EntityType="Car2GoDBModel.Reserva" Width="1.5" PointX="7.75" PointY="2.375" />
         <EntityTypeShape EntityType="Car2GoDBModel.ReservaAccesorio" Width="1.5" PointX="10.25" PointY="2.375" />
         <EntityTypeShape EntityType="Car2GoDBModel.ReservaServicio" Width="1.5" PointX="10.25" PointY="5.375" />
         <AssociationConnector Association="Car2GoDBModel.FK_ReservaAccesorio_Accesorio" />
+        <AssociationConnector Association="Car2GoDBModel.FK_ReservaServicio_Servicio" />
+        <EntityTypeShape EntityType="Car2GoDBModel.Reserva" Width="1.75" PointX="7.75" PointY="2.375" />
         <AssociationConnector Association="Car2GoDBModel.FK_Reserva_Auto" />
         <AssociationConnector Association="Car2GoDBModel.FK_ReservaAccesorio_Reserva" />
         <AssociationConnector Association="Car2GoDBModel.FK_ReservaServicio_Reserva" />
         <AssociationConnector Association="Car2GoDBModel.FK_UsuarioReserva_Reserva" />
-        <AssociationConnector Association="Car2GoDBModel.FK_ReservaServicio_Servicio" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
