@@ -27,7 +27,14 @@
         <AssociationConnector Association="Car2GoDBModel.FK_Reserva_Auto" />
         <AssociationConnector Association="Car2GoDBModel.FK_ReservaAccesorio_Reserva" />
         <AssociationConnector Association="Car2GoDBModel.FK_ReservaServicio_Reserva" />
-        <AssociationConnector Association="Car2GoDBModel.FK_UsuarioReserva_Reserva" />
+        <AssociationConnector Association="Car2GoDBModel.FK_UsuarioReserva_Reserva" ManuallyRouted="true" >
+          <ConnectorPoint PointX="8.5333879331106566" PointY="7.8167122395833317" />
+          <ConnectorPoint PointX="8.5333879331106566" PointY="8.1167122395833324" />
+          <ConnectorPoint PointX="7.3" PointY="8.1167122395833324" />
+          <ConnectorPoint PointX="7.3" PointY="7.2" />
+          <ConnectorPoint PointX="6.1639452790217639" PointY="7.2" />
+          <ConnectorPoint PointX="6.1639452790217639" PointY="7.5" />
+        </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

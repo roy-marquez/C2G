@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using C2G.Models;
 using C2G.Models.ViewModels;
+using C2G.Logic;
 
 namespace C2G.Controllers
 {
@@ -93,13 +94,57 @@ namespace C2G.Controllers
 
                        }).ToList();
             }
-
             return View(lst);
         }
 
+        //REGISTRO NUEVO+++++++++++++++
+        //Sobre carga del Metodo
         [AuthorizeUser(idOperacion: 10)]
         public ActionResult AgregarReserva()
         {
+            return View();
+        }
+
+        public ActionResult AgregarReserva(ReservaViewModel model)
+        {
+            Util u = new Util();
+            try
+            {
+                if (ModelState.IsValid) {
+                    using (Car2GoDBEntities db = new Car2GoDBEntities())
+                    {
+
+                        //var oReserva = new Reserva
+                        //{
+                        //    fecha_hora_reserva = DateTime.Now,
+                        //    id_auto = model.IdAuto,
+                        //    lugar_retiro = model.LugarRetiro,
+                        //    fecha_retiro = model.FechaRetiro,
+                        //    hora_retiro = model.HoraRetiro,
+                        //    lugar_devolucion = model.LugarDevolucion,
+                        //    fecha_devolucion = model.FechaDevolucion,
+                        //    hora_devolucion = model.HoraDevolucion,
+                        //    cantidad_dias = u.DiasEntreFechas(model.FechaRetiro, model.FechaDevolucion),
+                        //    cargos_servicios = model.CargosServicios,
+                        //    cargos_accesorios = model.CargosAccesorios,
+                        //    cargos_subtotal = model.CargosSubtotal,
+                        //    descuento = model.Descuento,
+                        //    cargos_atraso = model.CargosAtraso,
+                        //    cargos_deperfecto = model.CargosDesperfecto,
+                        //    cargos_total = model.CargosTotal,
+                        //    monto_reembolso = model.MontoReembolso,
+                        //    estado = "activa"
+                        //};
+
+                        //var oReserva = db.
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             return View();
         }
 
