@@ -12,6 +12,8 @@ namespace C2G.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class Car2GoDBEntities : DbContext
     {
@@ -37,5 +39,105 @@ namespace C2G.Models
         public virtual DbSet<ReservaAccesorio> ReservaAccesorio { get; set; }
         public virtual DbSet<ReservaServicio> ReservaServicio { get; set; }
         public virtual DbSet<Reserva> Reserva { get; set; }
+    
+        public virtual ObjectResult<Nullable<decimal>> SP_InsertarReserva(Nullable<System.DateTime> fecha_hora_reserva, Nullable<int> id_auto, string lugar_retiro, Nullable<System.DateTime> fecha_retiro, Nullable<System.DateTime> hora_retiro, string lugar_devolucion, Nullable<System.DateTime> fecha_devolucion, Nullable<System.DateTime> hora_devolucion, Nullable<int> cantidad_dias, Nullable<decimal> cargos_servicios, Nullable<decimal> cargos_accesorios, Nullable<decimal> cargos_subtotal, Nullable<decimal> descuento, Nullable<decimal> cargos_atraso, Nullable<decimal> cargos_desperfecto, Nullable<decimal> cargos_total, Nullable<decimal> monto_reembolso, string estado)
+        {
+            var fecha_hora_reservaParameter = fecha_hora_reserva.HasValue ?
+                new ObjectParameter("fecha_hora_reserva", fecha_hora_reserva) :
+                new ObjectParameter("fecha_hora_reserva", typeof(System.DateTime));
+    
+            var id_autoParameter = id_auto.HasValue ?
+                new ObjectParameter("id_auto", id_auto) :
+                new ObjectParameter("id_auto", typeof(int));
+    
+            var lugar_retiroParameter = lugar_retiro != null ?
+                new ObjectParameter("lugar_retiro", lugar_retiro) :
+                new ObjectParameter("lugar_retiro", typeof(string));
+    
+            var fecha_retiroParameter = fecha_retiro.HasValue ?
+                new ObjectParameter("fecha_retiro", fecha_retiro) :
+                new ObjectParameter("fecha_retiro", typeof(System.DateTime));
+    
+            var hora_retiroParameter = hora_retiro.HasValue ?
+                new ObjectParameter("hora_retiro", hora_retiro) :
+                new ObjectParameter("hora_retiro", typeof(System.DateTime));
+    
+            var lugar_devolucionParameter = lugar_devolucion != null ?
+                new ObjectParameter("lugar_devolucion", lugar_devolucion) :
+                new ObjectParameter("lugar_devolucion", typeof(string));
+    
+            var fecha_devolucionParameter = fecha_devolucion.HasValue ?
+                new ObjectParameter("fecha_devolucion", fecha_devolucion) :
+                new ObjectParameter("fecha_devolucion", typeof(System.DateTime));
+    
+            var hora_devolucionParameter = hora_devolucion.HasValue ?
+                new ObjectParameter("hora_devolucion", hora_devolucion) :
+                new ObjectParameter("hora_devolucion", typeof(System.DateTime));
+    
+            var cantidad_diasParameter = cantidad_dias.HasValue ?
+                new ObjectParameter("cantidad_dias", cantidad_dias) :
+                new ObjectParameter("cantidad_dias", typeof(int));
+    
+            var cargos_serviciosParameter = cargos_servicios.HasValue ?
+                new ObjectParameter("cargos_servicios", cargos_servicios) :
+                new ObjectParameter("cargos_servicios", typeof(decimal));
+    
+            var cargos_accesoriosParameter = cargos_accesorios.HasValue ?
+                new ObjectParameter("cargos_accesorios", cargos_accesorios) :
+                new ObjectParameter("cargos_accesorios", typeof(decimal));
+    
+            var cargos_subtotalParameter = cargos_subtotal.HasValue ?
+                new ObjectParameter("cargos_subtotal", cargos_subtotal) :
+                new ObjectParameter("cargos_subtotal", typeof(decimal));
+    
+            var descuentoParameter = descuento.HasValue ?
+                new ObjectParameter("descuento", descuento) :
+                new ObjectParameter("descuento", typeof(decimal));
+    
+            var cargos_atrasoParameter = cargos_atraso.HasValue ?
+                new ObjectParameter("cargos_atraso", cargos_atraso) :
+                new ObjectParameter("cargos_atraso", typeof(decimal));
+    
+            var cargos_desperfectoParameter = cargos_desperfecto.HasValue ?
+                new ObjectParameter("cargos_desperfecto", cargos_desperfecto) :
+                new ObjectParameter("cargos_desperfecto", typeof(decimal));
+    
+            var cargos_totalParameter = cargos_total.HasValue ?
+                new ObjectParameter("cargos_total", cargos_total) :
+                new ObjectParameter("cargos_total", typeof(decimal));
+    
+            var monto_reembolsoParameter = monto_reembolso.HasValue ?
+                new ObjectParameter("monto_reembolso", monto_reembolso) :
+                new ObjectParameter("monto_reembolso", typeof(decimal));
+    
+            var estadoParameter = estado != null ?
+                new ObjectParameter("estado", estado) :
+                new ObjectParameter("estado", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("SP_InsertarReserva", fecha_hora_reservaParameter, id_autoParameter, lugar_retiroParameter, fecha_retiroParameter, hora_retiroParameter, lugar_devolucionParameter, fecha_devolucionParameter, hora_devolucionParameter, cantidad_diasParameter, cargos_serviciosParameter, cargos_accesoriosParameter, cargos_subtotalParameter, descuentoParameter, cargos_atrasoParameter, cargos_desperfectoParameter, cargos_totalParameter, monto_reembolsoParameter, estadoParameter);
+        }
+    
+        public virtual int SP_InsertarReservaAccesorios()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertarReservaAccesorios");
+        }
+    
+        public virtual int SP_InsertarReservaServicios()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertarReservaServicios");
+        }
+    
+        public virtual ObjectResult<Nullable<int>> SP_InsertarUsuarioReserva(Nullable<int> id_usuario, Nullable<int> id_reserva)
+        {
+            var id_usuarioParameter = id_usuario.HasValue ?
+                new ObjectParameter("id_usuario", id_usuario) :
+                new ObjectParameter("id_usuario", typeof(int));
+    
+            var id_reservaParameter = id_reserva.HasValue ?
+                new ObjectParameter("id_reserva", id_reserva) :
+                new ObjectParameter("id_reserva", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_InsertarUsuarioReserva", id_usuarioParameter, id_reservaParameter);
+        }
     }
 }

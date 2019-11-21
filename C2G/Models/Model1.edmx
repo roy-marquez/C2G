@@ -278,6 +278,32 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_InsertarReserva" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fecha_hora_reserva" Type="datetime" Mode="In" />
+          <Parameter Name="id_auto" Type="int" Mode="In" />
+          <Parameter Name="lugar_retiro" Type="nvarchar" Mode="In" />
+          <Parameter Name="fecha_retiro" Type="date" Mode="In" />
+          <Parameter Name="hora_retiro" Type="datetime" Mode="In" />
+          <Parameter Name="lugar_devolucion" Type="nvarchar" Mode="In" />
+          <Parameter Name="fecha_devolucion" Type="date" Mode="In" />
+          <Parameter Name="hora_devolucion" Type="datetime" Mode="In" />
+          <Parameter Name="cantidad_dias" Type="int" Mode="In" />
+          <Parameter Name="cargos_servicios" Type="decimal" Mode="In" />
+          <Parameter Name="cargos_accesorios" Type="decimal" Mode="In" />
+          <Parameter Name="cargos_subtotal" Type="decimal" Mode="In" />
+          <Parameter Name="descuento" Type="decimal" Mode="In" />
+          <Parameter Name="cargos_atraso" Type="decimal" Mode="In" />
+          <Parameter Name="cargos_desperfecto" Type="decimal" Mode="In" />
+          <Parameter Name="cargos_total" Type="decimal" Mode="In" />
+          <Parameter Name="monto_reembolso" Type="decimal" Mode="In" />
+          <Parameter Name="estado" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_InsertarReservaAccesorios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_InsertarReservaServicios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_InsertarUsuarioReserva" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_usuario" Type="int" Mode="In" />
+          <Parameter Name="id_reserva" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="Car2GoDBModelStoreContainer">
           <EntitySet Name="Accesorio" EntityType="Self.Accesorio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Auto" EntityType="Self.Auto" Schema="dbo" store:Type="Tables" />
@@ -397,6 +423,32 @@
             <End Role="Reserva" EntitySet="Reserva" />
             <End Role="UsuarioReserva" EntitySet="UsuarioReserva" />
           </AssociationSet>
+          <FunctionImport Name="SP_InsertarReserva" ReturnType="Collection(Decimal)">
+            <Parameter Name="fecha_hora_reserva" Mode="In" Type="DateTime" />
+            <Parameter Name="id_auto" Mode="In" Type="Int32" />
+            <Parameter Name="lugar_retiro" Mode="In" Type="String" />
+            <Parameter Name="fecha_retiro" Mode="In" Type="DateTime" />
+            <Parameter Name="hora_retiro" Mode="In" Type="DateTime" />
+            <Parameter Name="lugar_devolucion" Mode="In" Type="String" />
+            <Parameter Name="fecha_devolucion" Mode="In" Type="DateTime" />
+            <Parameter Name="hora_devolucion" Mode="In" Type="DateTime" />
+            <Parameter Name="cantidad_dias" Mode="In" Type="Int32" />
+            <Parameter Name="cargos_servicios" Mode="In" Type="Decimal" />
+            <Parameter Name="cargos_accesorios" Mode="In" Type="Decimal" />
+            <Parameter Name="cargos_subtotal" Mode="In" Type="Decimal" />
+            <Parameter Name="descuento" Mode="In" Type="Decimal" />
+            <Parameter Name="cargos_atraso" Mode="In" Type="Decimal" />
+            <Parameter Name="cargos_desperfecto" Mode="In" Type="Decimal" />
+            <Parameter Name="cargos_total" Mode="In" Type="Decimal" />
+            <Parameter Name="monto_reembolso" Mode="In" Type="Decimal" />
+            <Parameter Name="estado" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_InsertarReservaAccesorios" />
+          <FunctionImport Name="SP_InsertarReservaServicios" />
+          <FunctionImport Name="SP_InsertarUsuarioReserva" ReturnType="Collection(Int32)">
+            <Parameter Name="id_usuario" Mode="In" Type="Int32" />
+            <Parameter Name="id_reserva" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="Accesorio">
           <Key>
@@ -852,6 +904,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_InsertarReserva" FunctionName="Car2GoDBModel.Store.SP_InsertarReserva" />
+          <FunctionImportMapping FunctionImportName="SP_InsertarReservaAccesorios" FunctionName="Car2GoDBModel.Store.SP_InsertarReservaAccesorios" />
+          <FunctionImportMapping FunctionImportName="SP_InsertarReservaServicios" FunctionName="Car2GoDBModel.Store.SP_InsertarReservaServicios" />
+          <FunctionImportMapping FunctionImportName="SP_InsertarUsuarioReserva" FunctionName="Car2GoDBModel.Store.SP_InsertarUsuarioReserva" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

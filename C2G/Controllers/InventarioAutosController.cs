@@ -88,12 +88,6 @@ namespace C2G.Controllers
             }
         }
 
-        
-        //[AuthorizeUser(idOperacion: 5)]
-        //public ActionResult ConsultarAuto()
-        //{
-        //    return View();
-        //}
 
         //MODIFICAR REGISTRO+++++++++++++++
         [AuthorizeUser(idOperacion: 7)]

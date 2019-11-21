@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace C2G.Models.ViewModels
 {
@@ -23,18 +24,36 @@ namespace C2G.Models.ViewModels
 
         public int IdAuto { get; set; }
 
+        //RETIRO DE AUTO
+        [Display(Name = "Lugar de Retiro")]
+        [Required(ErrorMessage = "Campo obligatorio")]
         public string LugarRetiro { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        [Display(Name = "Fecha de Retiro")]
+        [Required(ErrorMessage = "Campo obligatorio")]
         public DateTime FechaRetiro { get; set; }
 
+        [Display(Name = "Hora de Retiro")]
+        [Required(ErrorMessage = "Campo obligatorio")]
         public DateTime HoraRetiro { get; set; }
 
+        //DEVOLUCION DE AUTO
+        [Display(Name = "Lugar de Devolución")]
+        [Required(ErrorMessage = "Campo obligatorio")]
         public string LugarDevolucion{ get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        [Display(Name = "Fecha de Devolución")]
         public DateTime FechaDevolucion { get; set; }
 
+        [Display(Name = "Hora de Devolución")]
+        [Required(ErrorMessage = "Campo obligatorio")]
         public DateTime HoraDevolucion { get; set; }
 
+        // PAGO INICIAL
         public int  CantidadDias { get; set; }
 
         public decimal CargosServicios { get; set; }
@@ -45,6 +64,8 @@ namespace C2G.Models.ViewModels
         
         public decimal Descuento { get; set; }
         
+
+        //PAGO FINAL CIERRE
         public decimal CargosAtraso { get; set; }
         
         public decimal CargosDesperfecto { get; set; }
@@ -55,8 +76,9 @@ namespace C2G.Models.ViewModels
 
         public string Estado { get; set; }
 
-        public List<Servicio> Servicios { get; set; }
+        //SERVICIOS Y ACCESORIOS
+        public List<ReservaServicio> Servicios { get; set; }
 
-        public List<Accesorio> Accesorios { get; set; }
+        public List<ReservaAccesorio> Accesorios { get; set; }
     }
 }
