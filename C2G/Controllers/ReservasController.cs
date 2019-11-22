@@ -16,28 +16,20 @@ namespace C2G.Controllers
     {
         private Usuario oUsuario;
 
+        [AuthorizeUser(idOperacion: 10)]
         public ActionResult Index()
         {
             oUsuario = (Usuario)Session["User"];
             ViewBag.CurrentUser = oUsuario.nombre;
 
+            // Lista historial de reservas de un cliente
             List<ListReservaViewModel> lst;
-            //List<ListUsuarioReservaViewModel> lstUsuarioReserva;
-            //UsuarioReservaViewModel usuarioReserva;
 
             using (Car2GoDBEntities db = new Car2GoDBEntities())
             {
-                //lstUsuarioReserva = (from usuarioReserva in db.UsuarioReserva
-                //                     where usuarioReserva.id_usuario == oUsuario.id_usuario
-                //                     select new ListUsuarioReservaViewModel
-                //                     {
-                //                         IdReserva = usuarioReserva.id_reserva
-                //                     }).ToList();
-
                 //inner join devuelve todas las reservas del Usuario Logueado
                 lst = (from reserva in db.Reserva
-                        join usuario_reserva in db.UsuarioReserva on reserva.id_reserva equals usuario_reserva.id_reserva
-                        //join usr in db.Usuario on usuario_reserva.id_usuario equals oUsuario.id_usuario
+                       join usuario_reserva in db.UsuarioReserva on reserva.id_reserva equals usuario_reserva.id_reserva
                        where usuario_reserva.id_usuario == oUsuario.id_usuario
                        select new ListReservaViewModel
                        {
@@ -106,170 +98,236 @@ namespace C2G.Controllers
         {
             ViewBag.Title = "Agregar Reserva";
             Usuario user = (Usuario)Session["User"];
-            ViewBag.NombreCompleto = user.nombre+" "+user.apellido1+" "+user.apellido2;
+            ViewBag.NombreCompleto = user.nombre + " " + user.apellido1 + " " + user.apellido2;
             ViewBag.Email = user.email;
+
+            //Listas para cada tipo de Auto
+            List<AutoViewModel> lstAutos4x4 = ListaAutosPorTipo("4x4");
+            List<AutoViewModel> lstAutosSedan = ListaAutosPorTipo("sedan");
+            List<AutoViewModel> lstAutosEconomico = ListaAutosPorTipo("economico");
+
+            //Listas de Items DropDownList para cada tipo de Auto
+            ViewBag.ItemsAutos4x4 = ItemsAutos(lstAutos4x4);
+            ViewBag.ItemsAutosSedan = ItemsAutos(lstAutosSedan);
+            ViewBag.ItemsAutosEconomico = ItemsAutos(lstAutosEconomico);
+
+            //List<SelectListItem> itemsAutos4x4 = lstAutos4x4.ConvertAll(d =>
+            //{
+            //    return new SelectListItem()
+            //    {
+            //        Text = (d.Marca + ", " + d.Modelo + ", " + d.Transmision + ", " + d.Combustible + ", " + d.Color),
+            //        Value = d.IdAuto.ToString(),
+            //        Selected = false
+            //    };
+            //});
+
             return View();
         }
 
-        [HttpPost]
+        // Abre una conexion a base de datos y devuelve una lista
+        // de Autos del tipo que se pasa como parámetro: 4x4, sedan, economico
+        private List<AutoViewModel> ListaAutosPorTipo(string tipo)
+        {
+            List<AutoViewModel> lstAutos = null;
+            using (Car2GoDBEntities db = new Car2GoDBEntities())
+            {
+                lstAutos = (from d in db.Auto
+                            where d.tipo == tipo
+                            select new AutoViewModel
+                            {
+                                IdAuto = d.id_auto,
+                                Placa = d.placa,
+                                Marca = d.marca,
+                                Modelo = d.modelo,
+                                Transmision = d.transmision,
+                                Combustible = d.combustible,
+                                Color = d.color,
+                                Anio = (DateTime)d.anio,
+                                Rack = d.rack,
+                                Tipo = d.tipo,
+                                Lugar = d.lugar,
+                                Estado = d.estado
+                            }
+                            ).ToList();
+            }
+            return lstAutos;
+        }
+
+        // Convierte una Lista de AutoViewModels a Lista de SelectItems
+        // Se usan para poblar la las dropDownList de la vista de AgregarReserva.
+        private List<SelectListItem> ItemsAutos(List<AutoViewModel> lstAutos)
+        {
+            return lstAutos.ConvertAll(d =>
+               {
+                   return new SelectListItem()
+                   {
+                       Text = (d.Marca + ", " + d.Modelo + ", " + d.Transmision + ", " + d.Combustible + ", " + d.Color),
+                       Value = d.IdAuto.ToString(),
+                       Selected = false
+                   };
+               });
+         }
+
+            [HttpPost]
         public ActionResult AgregarReserva(ReservaViewModel model)
-        {
-            Util u = new Util();
-            
-            try
             {
-                //Si todas las validaciones fueron correctas
-                if (ModelState.IsValid) {
-                    using (Car2GoDBEntities db = new Car2GoDBEntities())
+                Util u = new Util();
+
+                try
+                {
+                    //Si todas las validaciones fueron correctas
+                    if (ModelState.IsValid)
                     {
-                                           
-                        /** Inserto la reserva en la DB usando el SP_InsertarReserva
-                         *  El cual regresa el id_reserva que se acaba de insertar se 
-                         *  guarda en el int IdReservaNueva y se usara para actualizar las
-                         *  tablas de ReservaServicio, ReservaAccesorio, UsuarioReserva 
-                         */
-                        int IdReservaNueva = (int)db.SP_InsertarReserva(
-                            DateTime.Now,
-                            model.IdAuto,
+                        using (Car2GoDBEntities db = new Car2GoDBEntities())
+                        {
 
-                            model.LugarRetiro,                          
-                            model.FechaRetiro,
-                            model.HoraRetiro,
+                            /** Inserto la reserva en la DB usando el SP_InsertarReserva
+                             *  El cual regresa el id_reserva que se acaba de insertar se 
+                             *  guarda en el int IdReservaNueva y se usara para actualizar las
+                             *  tablas de ReservaServicio, ReservaAccesorio, UsuarioReserva 
+                             */
+                            int IdReservaNueva = (int)db.SP_InsertarReserva(
+                                DateTime.Now,
+                                model.IdAuto,
 
-                            model.LugarDevolucion,
-                            model.FechaDevolucion,
-                            model.HoraDevolucion,
+                                model.LugarRetiro,
+                                model.FechaRetiro,
+                                model.HoraRetiro,
 
-                            u.DiasEntreFechas(model.FechaRetiro, model.FechaDevolucion),
-                            model.CargosServicios,
-                            model.CargosAccesorios,
-                            model.CargosSubtotal,
-                            model.Descuento,
+                                model.LugarDevolucion,
+                                model.FechaDevolucion,
+                                model.HoraDevolucion,
 
-                            model.CargosAtraso,
-                            model.CargosDesperfecto,
-                            model.CargosTotal,
-                            model.MontoReembolso,
-                            model.Estado
+                                u.DiasEntreFechas(model.FechaRetiro, model.FechaDevolucion),
+                                model.CargosServicios,
+                                model.CargosAccesorios,
+                                model.CargosSubtotal,
+                                model.Descuento,
 
-                            ).SingleOrDefault();
-                        db.SaveChanges();
+                                model.CargosAtraso,
+                                model.CargosDesperfecto,
+                                model.CargosTotal,
+                                model.MontoReembolso,
+                                model.Estado
 
-                        //Agregamos lista de servicios 
-                        AgregarReservaServiciosEnDB(db, model, IdReservaNueva);
+                                ).SingleOrDefault();
+                            db.SaveChanges();
 
-                        //Agregamos lista de accesorios, si los hay...
-                        AgregarReservaAccesoriosEnDB(db,model, IdReservaNueva);
+                            //Agregamos lista de servicios 
+                            AgregarReservaServiciosEnDB(db, model, IdReservaNueva);
 
-                        //Registrar Reserva en UsuarioReserva
-                        RegistrarUsuarioReservaEnDB(db, IdReservaNueva);
+                            //Agregamos lista de accesorios, si los hay...
+                            AgregarReservaAccesoriosEnDB(db, model, IdReservaNueva);
+
+                            //Registrar Reserva en UsuarioReserva
+                            RegistrarUsuarioReservaEnDB(db, IdReservaNueva);
+                        }
+                        //Si todas las inserciones fueron correctas regresamos al index de reservas (historial)
+                        return Redirect("~/Reservas/");
                     }
-                    //Si todas las inserciones fueron correctas regresamos al index de reservas (historial)
-                    return Redirect("~/Reservas/");
+                    return View(model);
                 }
-                return View(model);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message); ;
-            }
-        }
-
-        private void AgregarReservaServiciosEnDB( Car2GoDBEntities db, ReservaViewModel model, int IdReservaNueva)
-        {
-            
-            /* Si la insercion de la nueva reserva es correcta, la variable
-             * IdReservaNueva sera mayor a cero, entonces inserto la lista de servicios en la tabla
-             * [dbo.ReservaServicio] utilizando el procedimiento almacenado
-             * [SP_InsertarReservaServicios]  el cual usa internamente el tipo personalizado 
-             * [DatosReservaServicios] que recibe una lista de parametros en formato tabla.
-             * */
-            if (IdReservaNueva > 0)
-            {
-                var dtServicios = new DataTable();
-                dtServicios.Columns.Add("id_reserva", typeof(int));
-                dtServicios.Columns.Add("id_servicio", typeof(int));
-                dtServicios.Columns.Add("cantidad", typeof(Byte));
-                dtServicios.Columns.Add("cantidad_dias", typeof(int));
-                dtServicios.Columns.Add("precio_por_dia", typeof(decimal));
-                dtServicios.Columns.Add("cargo", typeof(decimal));
-
-                foreach (ReservaServicio rs in model.Servicios)
+                catch (Exception ex)
                 {
-                    /* Nótese como el primer parametro es la varible IdReservaNueva
-                     * que fue regresada en la operacion de insercion de reserva
-                     */
-                    dtServicios.Rows.Add(
-                        IdReservaNueva,
-                        rs.id_servicio,
-                        rs.cantidad,
-                        rs.cantidad_dias,
-                        rs.precio_por_dia,
-                        rs.cargo);
+                    throw new Exception(ex.Message); ;
                 }
-                var parametros_servicios = new SqlParameter("@lst_servicios", SqlDbType.Structured);
-                parametros_servicios.Value = dtServicios;
-                parametros_servicios.TypeName = "dbo.DatosReservaServicios";
-
-                db.Database.ExecuteSqlCommand("exec SP_InsertarReservaServicios @lst_servicios", parametros_servicios);
             }
-        }
 
-        private void AgregarReservaAccesoriosEnDB(Car2GoDBEntities db, ReservaViewModel model, int IdReservaNueva)
-        {
-
-            /* Si la insercion de la nueva reserva es correcta, la variable
-             * IdReservaNueva sera mayor a cero, y ademas la lista de accesorios sea mayor a cero
-             * entonces inserto la lista de acc en la tabla
-             * [dbo.ReservaAccesorio] utilizando el procedimiento almacenado
-             * [SP_InsertarReservaServicios]  el cual usa internamente el tipo personalizado 
-             * [DatosReservaServicios] que recibe una lista de parametros en formato tabla.
-             * */
-            if (model.Accesorios.Count>0 && IdReservaNueva > 0)
+            private void AgregarReservaServiciosEnDB(Car2GoDBEntities db, ReservaViewModel model, int IdReservaNueva)
             {
-                var dtAccesorios = new DataTable();
-                dtAccesorios.Columns.Add("id_reserva", typeof(int));
-                dtAccesorios.Columns.Add("id_accesorio", typeof(int));
-                dtAccesorios.Columns.Add("cantidad", typeof(Byte));
-                dtAccesorios.Columns.Add("cantidad_dias", typeof(int));
-                dtAccesorios.Columns.Add("precio_por_dia", typeof(decimal));
-                dtAccesorios.Columns.Add("cargo", typeof(decimal));
 
-                foreach (ReservaAccesorio ra in model.Accesorios)
+                /* Si la insercion de la nueva reserva es correcta, la variable
+                 * IdReservaNueva sera mayor a cero, entonces inserto la lista de servicios en la tabla
+                 * [dbo.ReservaServicio] utilizando el procedimiento almacenado
+                 * [SP_InsertarReservaServicios]  el cual usa internamente el tipo personalizado 
+                 * [DatosReservaServicios] que recibe una lista de parametros en formato tabla.
+                 * */
+                if (IdReservaNueva > 0)
                 {
-                    /* Nótese como el primer parametro es la varible IdReservaNueva
-                     * que fue regresada en la operacion de insercion de reserva
-                     */
-                    dtAccesorios.Rows.Add(
-                        IdReservaNueva,
-                        ra.id_accesorio,
-                        ra.cantidad,
-                        ra.cantidad_dias,
-                        ra.precio_por_dia,
-                        ra.cargo);
+                    var dtServicios = new DataTable();
+                    dtServicios.Columns.Add("id_reserva", typeof(int));
+                    dtServicios.Columns.Add("id_servicio", typeof(int));
+                    dtServicios.Columns.Add("cantidad", typeof(Byte));
+                    dtServicios.Columns.Add("cantidad_dias", typeof(int));
+                    dtServicios.Columns.Add("precio_por_dia", typeof(decimal));
+                    dtServicios.Columns.Add("cargo", typeof(decimal));
+
+                    foreach (ReservaServicio rs in model.Servicios)
+                    {
+                        /* Nótese como el primer parametro es la varible IdReservaNueva
+                         * que fue regresada en la operacion de insercion de reserva
+                         */
+                        dtServicios.Rows.Add(
+                            IdReservaNueva,
+                            rs.id_servicio,
+                            rs.cantidad,
+                            rs.cantidad_dias,
+                            rs.precio_por_dia,
+                            rs.cargo);
+                    }
+                    var parametros_servicios = new SqlParameter("@lst_servicios", SqlDbType.Structured);
+                    parametros_servicios.Value = dtServicios;
+                    parametros_servicios.TypeName = "dbo.DatosReservaServicios";
+
+                    db.Database.ExecuteSqlCommand("exec SP_InsertarReservaServicios @lst_servicios", parametros_servicios);
                 }
-                var parametros_accesorios = new SqlParameter("@lst_accesorios", SqlDbType.Structured);
-                parametros_accesorios.Value = dtAccesorios;
-                parametros_accesorios.TypeName = "dbo.DatosReservaAccesorios";
-
-                db.Database.ExecuteSqlCommand("exec SP_InsertarReservaAccesorios @lst_accesorios", parametros_accesorios);
             }
-        }
 
-        private void RegistrarUsuarioReservaEnDB (Car2GoDBEntities db, int IdReservaNueva)
-        {
-            oUsuario = (Usuario)Session["User"];
-            int IdUsuario = oUsuario.id_usuario;
-
-            var oUsuarioReserva = new UsuarioReserva
+            private void AgregarReservaAccesoriosEnDB(Car2GoDBEntities db, ReservaViewModel model, int IdReservaNueva)
             {
-                id_reserva = IdReservaNueva,
-                id_usuario = IdUsuario
-            };
 
-            db.UsuarioReserva.Add(oUsuarioReserva);
-            db.SaveChanges();
-        }
+                /* Si la insercion de la nueva reserva es correcta, la variable
+                 * IdReservaNueva sera mayor a cero, y ademas la lista de accesorios sera mayor a cero
+                 * entonces inserto la lista de acc en la tabla
+                 * [dbo.ReservaAccesorio] utilizando el procedimiento almacenado
+                 * [SP_InsertarReservaServicios]  el cual usa internamente el tipo personalizado 
+                 * [DatosReservaServicios] que recibe una lista de parametros en formato tabla.
+                 * */
+                if (model.Accesorios.Count > 0 && IdReservaNueva > 0)
+                {
+                    var dtAccesorios = new DataTable();
+                    dtAccesorios.Columns.Add("id_reserva", typeof(int));
+                    dtAccesorios.Columns.Add("id_accesorio", typeof(int));
+                    dtAccesorios.Columns.Add("cantidad", typeof(Byte));
+                    dtAccesorios.Columns.Add("cantidad_dias", typeof(int));
+                    dtAccesorios.Columns.Add("precio_por_dia", typeof(decimal));
+                    dtAccesorios.Columns.Add("cargo", typeof(decimal));
+
+                    foreach (ReservaAccesorio ra in model.Accesorios)
+                    {
+                        /* Nótese como el primer parametro es la varible IdReservaNueva
+                         * que fue regresada en la operacion de insercion de reserva
+                         */
+                        dtAccesorios.Rows.Add(
+                            IdReservaNueva,
+                            ra.id_accesorio,
+                            ra.cantidad,
+                            ra.cantidad_dias,
+                            ra.precio_por_dia,
+                            ra.cargo);
+                    }
+                    var parametros_accesorios = new SqlParameter("@lst_accesorios", SqlDbType.Structured);
+                    parametros_accesorios.Value = dtAccesorios;
+                    parametros_accesorios.TypeName = "dbo.DatosReservaAccesorios";
+
+                    db.Database.ExecuteSqlCommand("exec SP_InsertarReservaAccesorios @lst_accesorios", parametros_accesorios);
+                }
+            }
+
+            private void RegistrarUsuarioReservaEnDB(Car2GoDBEntities db, int IdReservaNueva)
+            {
+                oUsuario = (Usuario)Session["User"];
+                int IdUsuario = oUsuario.id_usuario;
+
+                var oUsuarioReserva = new UsuarioReserva
+                {
+                    id_reserva = IdReservaNueva,
+                    id_usuario = IdUsuario
+                };
+
+                db.UsuarioReserva.Add(oUsuarioReserva);
+                db.SaveChanges();
+            }
 
         [AuthorizeUser(idOperacion: 11)]
         public ActionResult ConsultarReserva()

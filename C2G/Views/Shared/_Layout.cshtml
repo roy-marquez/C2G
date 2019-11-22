@@ -1,4 +1,24 @@
-﻿
+﻿@using C2G.Models;
+@{
+    try
+    {
+        Usuario oUsuario = (Usuario)Session["User"];
+        if (oUsuario.nombre != "" && oUsuario.nombre != null)
+        {
+            if (oUsuario.nombre != "invitado")
+            {
+                ViewBag.CurrentUser = "Usuario: " + oUsuario.nombre + " " + oUsuario.apellido1;
+            }
+            else { ViewBag.CurrentUser = "Usuario: Invitado"; }
+        }
+    }
+    catch (Exception e)
+    {
+
+        ViewBag.Error = e.Message;
+    }
+}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +31,6 @@
 </head>
 <body>
     <header>
-
         <nav class="navbar navbar-expand-lg navbar-light bg-light shadow">
             <div class="container">
 
@@ -24,7 +43,6 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav mr-auto">
                         <li class="nav-item">@Html.ActionLink("Inicio", "Index", "Home", null, new { @class = "nav-link" }) </li>
-                        <li class="nav-item">@Html.ActionLink("Registro", "Registrar", "Usuario", null, new { @class = "nav-link" })</li>
                         <li class="nav-item">@Html.ActionLink("Reservas", "Index", "Reservas", null, new { @class = "nav-link" })</li>
                         <li class="nav-item">@Html.ActionLink("Ubicación", "Ubicacion", "Home", null, new { @class = "nav-link" })</li>
                         <li class="nav-item dropdown">
@@ -32,10 +50,9 @@
                                 Administración
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @*<a class="dropdown-item" href="#">Inventario de Autos</a>*@
-                                <div>@Html.ActionLink("Inventario Autos", "Index", "InventarioAutos", null, new { @class = "nav-link" })</div>
+                                <div>@Html.ActionLink("Inventario Autos", "Index", "InventarioAutos", null, new { @class = "nav-link ml-4" })</div>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Usuarios</a>
+                                <a class="dropdown-item" href="~/home/">Checkout Reservas</a>
                             </div>
                         </li>
                     </ul>
@@ -45,21 +62,20 @@
                 @*1. Recibo el nombre del Usuario Actual y lo agrego a la barra de navegacion*@
                 @*2. Agrego Link para Cerrar Sesion*@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    @if ((String)TempData["CurrentUser"] != "")
+                    @if (Session["User"] != null)
                     {
-                        ViewBag.CurrentUser = TempData["CurrentUser"] + " >>";
+                        <ul class="nav navbar-nav mr-auto">
+                            <li class="nav-item text-xs-right d-inline nav-link text-success"> @ViewBag.CurrentUser </li>
+                            <li class="nav-item text-xs-right d-inline text-danger"> @Html.ActionLink("Cerrar Sesión", "Logoff", "Cerrar", null, new { @class = "nav-link text-danger" }) </li>
+                            <li class="nav-item text-xs-right d-inline nav-link text-danger"> <a class="text-danger" href="~/Cerrar/Logoff"><i class="fas fa-sign-out-alt"></i></a> </li>
+                        </ul>
                     }
-                    <ul class="nav navbar-nav mr-auto">
-                        <li class="nav-item text-xs-right d-inline nav-link text-success"> @ViewBag.CurrentUser </li>
-                        <li class="nav-item text-xs-right d-inline text-danger"> @Html.ActionLink("Cerrar Sesión", "Logoff", "Cerrar", null, new { @class = "nav-link text-danger" }) </li>
-                        <li class="nav-item text-xs-right d-inline nav-link text-danger"> <a class="text-danger" href="~/Cerrar/Logoff"><i class="fas fa-sign-out-alt"></i></a> </li>
-                    </ul>
                 </div>
 
             </div>
         </nav>
     </header>
-
+    @*<p class="text-danger"> Error: @ViewBag.Error</p>*@
 
     @RenderBody()
 

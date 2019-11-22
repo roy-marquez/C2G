@@ -11,7 +11,7 @@ namespace C2G.Controllers
 {
     public class InventarioAutosController : Controller
     {
-        // OBTENER REGISTROS ++++++++++++++++++++
+        // OBTENER REGISTROS 
         public ActionResult Index()
         {
             List<ListAutoViewModel> lst;
@@ -40,8 +40,8 @@ namespace C2G.Controllers
         }
 
 
-        //REGISTRO NUEVO+++++++++++++++
-        //Sobre carga del Metodo
+        // REGISTRO NUEVO
+        // Sobre carga del Metodo
         [AuthorizeUser(idOperacion: 1)]
         public ActionResult AgregarAuto()
         {
@@ -89,7 +89,7 @@ namespace C2G.Controllers
         }
 
 
-        //MODIFICAR REGISTRO+++++++++++++++
+        // MODIFICAR REGISTRO 
         [AuthorizeUser(idOperacion: 7)]
         public ActionResult ModificarAuto(int id)
         {
@@ -104,12 +104,12 @@ namespace C2G.Controllers
                 model.Combustible = oAuto.combustible;
                 model.Color = oAuto.color;
                 model.Anio = Convert.ToDateTime(oAuto.anio);
-                model.Rack = Convert.ToBoolean(oAuto.rack);
+                //model.Rack = Convert.ToBoolean(oAuto.rack);
+                model.Rack = oAuto.rack;
                 model.Tipo = oAuto.tipo;
                 model.ImagenRuta = oAuto.imagen_ruta;
                 model.Lugar = oAuto.lugar;
-                model.Estado = oAuto.estado;
-                //int v = model.IdAuto = oAuto.id_auto;
+                model.Estado = oAuto.estado;               
                 model.IdAuto = oAuto.id_auto;
             }
 
@@ -151,7 +151,7 @@ namespace C2G.Controllers
             }
         }
 
-        // ELIMINAR REGISTRO+++++++++++++++
+        // ELIMINAR REGISTRO 
         //Muy muy muy importante el parametro de entrada debe llamarse "id"
         //debe coincidir con el establecido en el archivo de Rutas "RouteConfig"
         [AuthorizeUser(idOperacion: 8)]
@@ -160,7 +160,6 @@ namespace C2G.Controllers
             
             using (Car2GoDBEntities db = new Car2GoDBEntities())
             {
-
                 var oAuto = db.Auto.Find(id);
                 db.Auto.Remove(oAuto);
                 db.SaveChanges();

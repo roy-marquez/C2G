@@ -23,7 +23,7 @@ namespace C2G.Models.ViewModels
 
         public DateTime Anio { get; set; }
 
-        public byte? Rack { get; set; }
+        public byte Rack { get; set; }
 
         public string Tipo { get; set; }
 

@@ -3,165 +3,206 @@
 
 @{
     ViewBag.Title = "Agregar Reserva";
+    List<SelectListItem> ItemsAutos4x4 = (List<SelectListItem>)ViewBag.ItemsAutos4x4;
+    List<SelectListItem> ItemsAutosSedan = (List<SelectListItem>)ViewBag.ItemsAutosSedan;
+    List<SelectListItem> ItemsAutosEconomico = (List<SelectListItem>)ViewBag.ItemsAutosEconomico;
 }
 
-    <div class="container mb-5 p-4">
-        <h3>@ViewBag.Title</h3>
-        <div class="row">
-            @*TABLA DE CABECERA DE RESERVA*@
-            <table class="table table-responsive-md table-bordered table-hover text-center mb-4 bg-light">
-                <tr>
-                    <th class="p-2 bg-success" colspan="4"> Datos del cliente </th>
-                </tr>
-                <tr>
-                    <th>Nombre Completo</th>
-                    <th>Email:</th>
-                    <th>Fecha y Hora actual</th>
-                </tr>
-                <tr>
-                    <td>@ViewBag.NombreCompleto</td>
-                    <td>@ViewBag.Email</td>
-                    <td>@DateTime.Now</td>
-                </tr>
-            </table>
-        </div>
-        <div>
-
-            @using (Html.BeginForm(("AgregarReserva", "Reservas", FormMethod.Post)))
-            {
-
-                <div style="padding: 1em;">
-                    @Html.LabelFor(d => d.IdAuto)
-                    @Html.DropDownListFor(d => d.IdAuto, new List<SelectListItem>
-                        {
-                            new SelectListItem { Text = "Toyota, Rush, automatico, 4x4", Value = "1", Selected = true },
-                            new SelectListItem { Text = "Toyota, Corolla, automatico, Sedan", Value = "5"},
-                            new SelectListItem { Text = "Nissan, March, automatico, Económico", Value = "6"},
-                            new SelectListItem { Text = "Daihatsu, Bego, manual, 4x4" , Value = "9"},
-                            new SelectListItem { Text = "Daihatsu, Bego, automatico, 4x4", Value = "11"}
-                        })
-                    @Html.ValidationMessageFor(d => d.IdAuto, null, new { @class = "text-danger" })
-                </div>
-
-                <div class="row justify-content-between card-deck">
-                    <div class="col-sm-4 m-2 p-2 ">
-                        @*--------- DATOS DE RETIRO -----------*@
-                        <div class="card bg-light">
-                            <h5 class="card-header">Retiro</h5>
-                            @* LUGAR *@
-                            <div style="padding: 1em;">
-                                @Html.LabelFor(d => d.LugarRetiro) <br />
-                                @Html.DropDownListFor(d => d.LugarRetiro, new List<SelectListItem>
-                                {
-                                    new SelectListItem { Text = "San Jose", Value = "San Jose", Selected = true },
-                                    new SelectListItem { Text = "Alajuela (Aeropuerto)", Value = "Alajuela"},
-                                    new SelectListItem { Text = "Guanacaste (Aeropuerto)", Value = "Guanacaste"},
-                                    new SelectListItem { Text = "Puntarenas", Value = "Puntarenas"}
-                                })
-                                @Html.ValidationMessageFor(d => d.LugarRetiro, null, new { @class = "text-danger" })
-                            </div>
-                            @* FECHA *@
-                            <div style="padding: 1em;">
-                                @Html.LabelFor(d => d.FechaRetiro) <br>
-                                @Html.EditorFor(d => d.FechaRetiro, "", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(d => d.FechaRetiro, null, new { @class = "text-danger" })
-                            </div>
-                            @* HORA *@
-                            <div style="padding: 1em;">
-                                @Html.LabelFor(d => d.LugarRetiro) <br>
-                                @Html.DropDownListFor(d => d.LugarRetiro, new List<SelectListItem>
-                                    {
-                                        new SelectListItem { Text = "06:00 AM", Value = "06:00:00"},
-                                        new SelectListItem { Text = "07:00 AM", Value = "07:00:00"},
-                                        new SelectListItem { Text = "08:00 AM", Value = "08:00:00"},
-                                        new SelectListItem { Text = "09:00 AM", Value = "09:00:00"},
-                                        new SelectListItem { Text = "10:00 AM", Value = "10:00:00"},
-                                        new SelectListItem { Text = "11:00 AM", Value = "11:00:00"},
-                                        new SelectListItem { Text = "12:00 PM", Value = "12:00:00"},
-                                        new SelectListItem { Text = "01:00 PM", Value = "13:00:00"},
-                                        new SelectListItem { Text = "02:00 PM", Value = "14:00:00"},
-                                        new SelectListItem { Text = "03:00 PM", Value = "15:00:00"},
-                                        new SelectListItem { Text = "04:00 PM", Value = "16:00:00"},
-                                        new SelectListItem { Text = "05:00 PM", Value = "17:00:00"},
-                                        new SelectListItem { Text = "06:00 PM", Value = "18:00:00"},
-                                        new SelectListItem { Text = "07:00 PM", Value = "19:00:00"},
-                                        new SelectListItem { Text = "08:00 PM", Value = "20:00:00"},
-
-                                    })
-                            </div>
-                        </div>
-                    </div>
-                    @*--------- CANTIDAD DE DIAS -----------*@
-                    <div class="col-sm-3 m-2 p-2" >
-                        <div class="card bg-light" style="min-height: 320px; font-size: 3rem;">
-                            <h5 class="card-header">Cantidad de días</h5>
-                            <form action="/" method="post" class="justify-content-center">
-                                <label id="cantidad-dias" class="mt-4 text-center">
-                                    0
-                                </label>
-                            </form>
-
-                        </div>
-
-                    </div>
-
-                    @*--------- DATOS DE DEVOLUCION -----------*@
-                    <div class="col-sm-4 m-2 p-2 h-300">
-                        <div class="card bg-light">
-                            <h5 class="card-header">Devolución</h5>
-                            @* LUGAR *@
-                            <div style="padding: 1em;">
-                                @Html.LabelFor(d => d.LugarDevolucion) <br />
-                                @Html.DropDownListFor(d => d.LugarDevolucion, new List<SelectListItem>
-                                {
-                                    new SelectListItem { Text = "San Jose", Value = "San Jose", Selected = true },
-                                    new SelectListItem { Text = "Alajuela (Aeropuerto)", Value = "Alajuela"},
-                                    new SelectListItem { Text = "Guanacaste (Aeropuerto)", Value = "Guanacaste"},
-                                    new SelectListItem { Text = "Puntarenas", Value = "Puntarenas"}
-                                })
-                                @Html.ValidationMessageFor(d => d.LugarDevolucion, null, new { @class = "text-danger" })
-                            </div>
-
-                            @* FECHA *@
-                            <div style="padding: 1em;">
-                                @Html.LabelFor(d => d.FechaDevolucion) <br>
-                                @Html.EditorFor(d => d.FechaDevolucion, "", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(d => d.FechaDevolucion, null, new { @class = "text-danger" })
-                            </div>
-
-                            @* HORA *@
-                            <div style="padding: 1em;">
-                                @Html.LabelFor(d => d.HoraRetiro) <br>
-                                @Html.DropDownListFor(d => d.LugarRetiro, new List<SelectListItem>
-                                    {
-                                        new SelectListItem { Text = "06:00 AM", Value = "06:00:00"},
-                                        new SelectListItem { Text = "07:00 AM", Value = "07:00:00"},
-                                        new SelectListItem { Text = "08:00 AM", Value = "08:00:00"},
-                                        new SelectListItem { Text = "09:00 AM", Value = "09:00:00"},
-                                        new SelectListItem { Text = "10:00 AM", Value = "10:00:00"},
-                                        new SelectListItem { Text = "11:00 AM", Value = "11:00:00"},
-                                        new SelectListItem { Text = "12:00 PM", Value = "12:00:00"},
-                                        new SelectListItem { Text = "01:00 PM", Value = "13:00:00"},
-                                        new SelectListItem { Text = "02:00 PM", Value = "14:00:00"},
-                                        new SelectListItem { Text = "03:00 PM", Value = "15:00:00"},
-                                        new SelectListItem { Text = "04:00 PM", Value = "16:00:00"},
-                                        new SelectListItem { Text = "05:00 PM", Value = "17:00:00"},
-                                        new SelectListItem { Text = "06:00 PM", Value = "18:00:00"},
-                                        new SelectListItem { Text = "07:00 PM", Value = "19:00:00"},
-                                        new SelectListItem { Text = "08:00 PM", Value = "20:00:00"},
-
-                                    })
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-            }
-        </div>
-
-        <div class="mb-5 text-success">
-            <span><i class="fas fa-chevron-circle-left"></i> </span>  @Html.ActionLink("Volver", "Index")
-        </div>
-
+<div class="container mb-5 p-4">
+    <h3>@ViewBag.Title</h3>
+    <div class="row">
+        @*TABLA DE CABECERA DE RESERVA*@
+        <table class="table table-responsive-md table-bordered table-hover text-center mb-4 bg-light">
+            <tr>
+                <th class="p-2 bg-success" colspan="4"> Datos del cliente </th>
+            </tr>
+            <tr>
+                <th>Nombre Completo</th>
+                <th>Email:</th>
+                <th>Fecha y Hora actual</th>
+            </tr>
+            <tr>
+                <td>@ViewBag.NombreCompleto</td>
+                <td>@ViewBag.Email</td>
+                <td>@DateTime.Now</td>
+            </tr>
+        </table>
     </div>
+    <div>
+
+        @using (Html.BeginForm(("AgregarReserva", "Reservas", FormMethod.Post)))
+        {
+            @*<div class="p-4 border rounded">*@
+            <h5> 1. Selección de Auto</h5>
+            <div class="row card-deck pb-4">
+
+                <div class="card" style="width: 18rem;">
+                    <h5 class="card-header"> Tipo 4x4</h5>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Potencia y Elegancia, nuestros 4x4 son ideales para caminos díficiles.
+                            Montaña o carretera todo destino es posible.
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        @Html.DropDownListFor(d => d.IdAuto, ItemsAutos4x4, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="card p-0" style="width: 18rem;">
+                    <h5 class="card-header"> Tipo Sedán</h5>
+                    <div class="card-body">
+                        <p class="card-text">Los autos Sedán son ideales para trayectos largos por carretera por negocios o por placer.</p>
+                    </div>
+                    <div class="card-footer">
+                        @Html.DropDownListFor(d => d.IdAuto, ItemsAutosSedan, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="card p-0" style="width: 18rem;">
+                    <h5 class="card-header"> Tipo Compacto</h5>
+                    <div class="card-body">
+                        <p class="card-text">El mejor balance precio calidad, en compactos pensados para movilizarte de forma eficiente por las concurridas ciudades de nuestro país.</p>
+                    </div>
+                    <div class="card-footer">
+                        @Html.DropDownListFor(d => d.IdAuto, ItemsAutosEconomico, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            @*<div style="padding: 1em;">
+                @Html.LabelFor(d => d.IdAuto)
+                @Html.DropDownListFor(d => d.IdAuto, new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Toyota, Rush, automatico, 4x4", Value = "1", Selected = true },
+                        new SelectListItem { Text = "Toyota, Corolla, automatico, Sedan", Value = "5"},
+                        new SelectListItem { Text = "Nissan, March, automatico, Económico", Value = "6"},
+                        new SelectListItem { Text = "Daihatsu, Bego, manual, 4x4" , Value = "9"},
+                        new SelectListItem { Text = "Daihatsu, Bego, automatico, 4x4", Value = "11"}
+                    })
+                @Html.ValidationMessageFor(d => d.IdAuto, null, new { @class = "text-danger" })
+            </div>*@
+            <h5> 2. Lugares, fechas y horas</h5>
+            <div class="row justify-content-between card-deck">
+                <div class="col-sm-4 m-2 p-2 ">
+                    @*--------- DATOS DE RETIRO -----------*@
+                    <div class="card bg-light">
+                        <h5 class="card-header">Retiro</h5>
+                        @* LUGAR *@
+                        <div style="padding: 1em;">
+                            @Html.LabelFor(d => d.LugarRetiro) <br />
+                            @Html.DropDownListFor(d => d.LugarRetiro, new List<SelectListItem>
+                            {
+                                new SelectListItem { Text = "San Jose", Value = "San Jose", Selected = true },
+                                new SelectListItem { Text = "Alajuela (Aeropuerto)", Value = "Alajuela"},
+                                new SelectListItem { Text = "Guanacaste (Aeropuerto)", Value = "Guanacaste"},
+                                new SelectListItem { Text = "Puntarenas", Value = "Puntarenas"}
+                            }, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(d => d.LugarRetiro, null, new { @class = "text-danger" })
+                        </div>
+                        @* FECHA *@
+                        <div style="padding: 1em;" class="form-group">
+                            @Html.LabelFor(d => d.FechaRetiro) <br>
+                            @Html.EditorFor(d => d.FechaRetiro, " ", new { @class = "form-control datepicker" })
+                            @Html.ValidationMessageFor(d => d.FechaRetiro, null, new { @class = "text-danger" })
+                        </div>
+                        @* HORA *@
+                        <div style="padding: 1em;">
+                            @Html.LabelFor(d => d.HoraDevolucion) <br>
+                            @Html.DropDownListFor(d => d.HoraDevolucion, new List<SelectListItem>
+                                {
+                                    new SelectListItem { Text = "06:00 AM", Value = "06:00:00"},
+                                    new SelectListItem { Text = "07:00 AM", Value = "07:00:00"},
+                                    new SelectListItem { Text = "08:00 AM", Value = "08:00:00"},
+                                    new SelectListItem { Text = "09:00 AM", Value = "09:00:00"},
+                                    new SelectListItem { Text = "10:00 AM", Value = "10:00:00"},
+                                    new SelectListItem { Text = "11:00 AM", Value = "11:00:00"},
+                                    new SelectListItem { Text = "12:00 PM", Value = "12:00:00"},
+                                    new SelectListItem { Text = "01:00 PM", Value = "13:00:00"},
+                                    new SelectListItem { Text = "02:00 PM", Value = "14:00:00"},
+                                    new SelectListItem { Text = "03:00 PM", Value = "15:00:00"},
+                                    new SelectListItem { Text = "04:00 PM", Value = "16:00:00"},
+                                    new SelectListItem { Text = "05:00 PM", Value = "17:00:00"},
+                                    new SelectListItem { Text = "06:00 PM", Value = "18:00:00"},
+                                    new SelectListItem { Text = "07:00 PM", Value = "19:00:00"},
+                                    new SelectListItem { Text = "08:00 PM", Value = "20:00:00"},
+
+                                }, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                @*--------- CANTIDAD DE DIAS -----------*@
+                @*<div class="col-sm-3 m-2 p-2 d-none">
+                    <div class="card bg-light" style="min-height: 320px; font-size: 3rem;">
+                        <h5 class="card-header">Cantidad de días</h5>
+                        <form action="/" method="post" class="justify-content-center">
+                            <label id="cantidad-dias" class="mt-4 text-center">
+                                0
+                            </label>
+                        </form>
+
+                    </div>
+
+                </div>*@
+
+                @*--------- DATOS DE DEVOLUCION -----------*@
+                <div class="col-sm-4 m-2 p-2 h-300">
+                    <div class="card bg-light">
+                        <h5 class="card-header">Devolución</h5>
+                        @* LUGAR *@
+                        <div style="padding: 1em;">
+                            @Html.LabelFor(d => d.LugarDevolucion) <br />
+                            @Html.DropDownListFor(d => d.LugarDevolucion, new List<SelectListItem>
+                            {
+                                new SelectListItem { Text = "San Jose", Value = "San Jose", Selected = true },
+                                new SelectListItem { Text = "Alajuela (Aeropuerto)", Value = "Alajuela"},
+                                new SelectListItem { Text = "Guanacaste (Aeropuerto)", Value = "Guanacaste"},
+                                new SelectListItem { Text = "Puntarenas", Value = "Puntarenas"}
+                            }, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(d => d.LugarDevolucion, null, new { @class = "text-danger" })
+                        </div>
+
+                        @* FECHA *@
+                        <div style="padding: 1em;">
+                            @Html.LabelFor(d => d.FechaDevolucion) <br>
+                            @Html.EditorFor(d => d.FechaDevolucion, "", new { @class = "form-control " })
+                            @Html.ValidationMessageFor(d => d.FechaDevolucion, null, new { @class = "text-danger" })
+                        </div>
+
+                        @* HORA *@
+                        <div style="padding: 1em;">
+                            @Html.LabelFor(d => d.HoraDevolucion) <br>
+                            @Html.DropDownListFor(d => d.HoraDevolucion, new List<SelectListItem>
+                                {
+                                    new SelectListItem { Text = "06:00 AM", Value = "06:00:00"},
+                                    new SelectListItem { Text = "07:00 AM", Value = "07:00:00"},
+                                    new SelectListItem { Text = "08:00 AM", Value = "08:00:00"},
+                                    new SelectListItem { Text = "09:00 AM", Value = "09:00:00"},
+                                    new SelectListItem { Text = "10:00 AM", Value = "10:00:00"},
+                                    new SelectListItem { Text = "11:00 AM", Value = "11:00:00"},
+                                    new SelectListItem { Text = "12:00 PM", Value = "12:00:00"},
+                                    new SelectListItem { Text = "01:00 PM", Value = "13:00:00"},
+                                    new SelectListItem { Text = "02:00 PM", Value = "14:00:00"},
+                                    new SelectListItem { Text = "03:00 PM", Value = "15:00:00"},
+                                    new SelectListItem { Text = "04:00 PM", Value = "16:00:00"},
+                                    new SelectListItem { Text = "05:00 PM", Value = "17:00:00"},
+                                    new SelectListItem { Text = "06:00 PM", Value = "18:00:00"},
+                                    new SelectListItem { Text = "07:00 PM", Value = "19:00:00"},
+                                    new SelectListItem { Text = "08:00 PM", Value = "20:00:00"},
+
+                                }, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-right">
+                <input type="submit" name="AgregarAuto" value="Guardar" class="btn btn-primary" />
+            </div>
+        }
+    </div>
+
+    <div class="mb-5 text-success">
+        <span><i class="fas fa-chevron-circle-left"></i> </span>  @Html.ActionLink("Volver", "Index")
+    </div>
+
+</div>

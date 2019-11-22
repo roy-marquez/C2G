@@ -30,56 +30,69 @@
                     @Html.ValidationMessageFor(d => d.Modelo, null, new { @class = "text-danger" })
                 </div>
 
-                <div style="padding: 1em;">
-                    @Html.LabelFor(d => d.Transmision)
-                    @Html.TextBoxFor(d => d.Transmision, "", new { @class = "form-control" })
+                <div style="padding: 1em;" class="border rounded m-3">
+                    @Html.LabelFor(d => d.Transmision) <br />
+                    <label class="mr-4">@Html.RadioButtonFor(d => d.Transmision, "automatico") Automático </label>
+                    <label>@Html.RadioButtonFor(d => d.Transmision, "manual") Manual  </label> <br />
                     @Html.ValidationMessageFor(d => d.Transmision, null, new { @class = "text-danger" })
                 </div>
 
-                <div style="padding: 1em;">
-                    @Html.LabelFor(d => d.Combustible)
-                    @Html.TextBoxFor(d => d.Combustible, "", new { @class = "form-control" })
+                <div style="padding: 1em;" class="border rounded m-3">
+                    @Html.LabelFor(d => d.Combustible) <br />
+                    <label class="mr-4">@Html.RadioButtonFor(d => d.Combustible, "gasolina") Gasolina </label>
+                    <label class="mr-4">@Html.RadioButtonFor(d => d.Combustible, "diesel") Diesel </label>
+                    <label class="mr-4">@Html.RadioButtonFor(d => d.Combustible, "hibrido") Híbrido </label>
+                    <label>@Html.RadioButtonFor(d => d.Combustible, "electrico") Eléctrico </label> <br />
                     @Html.ValidationMessageFor(d => d.Combustible, null, new { @class = "text-danger" })
                 </div>
-                
-            </div>
 
-            <div id="ColumnaDerecha" class="col-md-6 form">
                 <div style="padding: 1em;">
                     @Html.LabelFor(d => d.Color)
                     @Html.TextBoxFor(d => d.Color, "", new { @class = "form-control" })
                     @Html.ValidationMessageFor(d => d.Color, null, new { @class = "text-danger" })
                 </div>
 
-                <div  style="padding: 1em; display: flex" class="align-content-between">
-                    <div class="align-content-between mr-4">
-                        @Html.LabelFor(d => d.Anio) 
-                        @Html.EditorFor(d => d.Anio, "", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(d => d.Anio, null, new { @class = "text-danger" })
-                    </div>
-                    <div class="text-right form">
-                        @Html.LabelFor(d => d.Rack)
-                        @Html.EditorFor(d => d.Rack, "", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(d => d.Rack, null, new { @class = "text-danger" })
-                    </div>
+            </div>
+
+            <div id="ColumnaDerecha" class="col-md-6 form">
+
+                <div style="padding: 1em;" class="border rounded m-3">
+                    @Html.LabelFor(d => d.Anio) <br />
+                    @Html.EditorFor(d => d.Anio, "", new { @class = "form-control" }) <br />
+                    @Html.ValidationMessageFor(d => d.Anio, null, new { @class = "text-danger" })
+                </div>
+                <div style="padding: 1em;" class="border rounded m-3">
+                    @Html.LabelFor(d => d.Rack) <br />
+                    <label class="mr-4">@Html.RadioButtonFor(d => d.Rack, 1) Sí</label>
+                    <label>@Html.RadioButtonFor(d => d.Rack, 0) No </label>
+                    @Html.ValidationMessageFor(d => d.Rack, null, new { @class = "text-danger" })
                 </div>
 
-                <div style="padding: 1em;">
-                    @Html.LabelFor(d => d.Tipo)
-                    @Html.TextBoxFor(d => d.Tipo, "", new { @class = "form-control" })
+                <div style="padding: 1em;" class="border rounded m-3">
+                    @Html.LabelFor(d => d.Tipo) <br />
+                    <label class="mr-4">@Html.RadioButtonFor(d => d.Tipo, "4x4") 4x4 </label>
+                    <label class="mr-4">@Html.RadioButtonFor(d => d.Tipo, "sedan") Sedán </label>
+                    <label>@Html.RadioButtonFor(d => d.Tipo, "economico") Económico </label> <br />
                     @Html.ValidationMessageFor(d => d.Tipo, null, new { @class = "text-danger" })
                 </div>
 
-
-                <div style="padding: 1em;">
-                    @Html.LabelFor(d => d.Lugar)
-                    @Html.TextBoxFor(d => d.Lugar, "", new { @class = "form-control" })
+                <div style="padding: 1em;" class="border rounded m-3">
+                    @Html.LabelFor(d => d.Lugar) <br />
+                    @Html.DropDownListFor(d => d.Lugar, new List<SelectListItem>
+                       {
+                           new SelectListItem { Text = "San Jose", Value = "San Jose", Selected = true },
+                           new SelectListItem { Text = "Alajuela (Aeropuerto)", Value = "Alajuela"},
+                           new SelectListItem { Text = "Guanacaste (Aeropuerto)", Value = "Guanacaste"},
+                           new SelectListItem { Text = "Puntarenas", Value = "Puntarenas"}
+                      })
                     @Html.ValidationMessageFor(d => d.Lugar, null, new { @class = "text-danger" })
                 </div>
 
-                <div style="padding: 1em;">
-                    @Html.LabelFor(d => d.Estado)
-                    @Html.TextBoxFor(d => d.Estado, "", new { @class = "form-control" })
+                <div style="padding: 1em;" class="border rounded m-3">
+                    @Html.LabelFor(d => d.Estado) <br />
+                    <label class="mr-4">@Html.RadioButtonFor(d => d.Estado, "disponible") Disponible  </label>
+                    <label class="mr-4">@Html.RadioButtonFor(d => d.Estado, "no disponible") No Disponible </label>
+                    <label>@Html.RadioButtonFor(d => d.Estado, "mantenimiento") En Mantenimiento </label>
                     @Html.ValidationMessageFor(d => d.Estado, null, new { @class = "text-danger" })
                 </div>
 
