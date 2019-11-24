@@ -101,15 +101,15 @@ namespace C2G.Controllers
             ViewBag.NombreCompleto = user.nombre + " " + user.apellido1 + " " + user.apellido2;
             ViewBag.Email = user.email;
 
-            //Listas para cada tipo de Auto
+            //Listas para cada tipo de Auto, solo autos disponibles en momento de consulta
             List<AutoViewModel> lstAutos4x4 = ListaAutosPorTipo("4x4");
             List<AutoViewModel> lstAutosSedan = ListaAutosPorTipo("sedan");
             List<AutoViewModel> lstAutosEconomico = ListaAutosPorTipo("economico");
 
-            //Listas de Items DropDownList para cada tipo de Auto
-            ViewBag.ItemsAutos4x4 = ItemsAutos(lstAutos4x4);
-            ViewBag.ItemsAutosSedan = ItemsAutos(lstAutosSedan);
-            ViewBag.ItemsAutosEconomico = ItemsAutos(lstAutosEconomico);
+            //Listas de Items DropDownList para cada tipo de Auto con Etiqueta de Agrupamiento
+            ViewBag.ItemsAutos4x4 = ItemsAutosAgrupados(lstAutos4x4,"4x4");
+            ViewBag.ItemsAutosSedan = ItemsAutosAgrupados(lstAutosSedan, "Sedan");
+            ViewBag.ItemsAutosEconomico = ItemsAutosAgrupados(lstAutosEconomico, "Compactos");
 
             //List<SelectListItem> itemsAutos4x4 = lstAutos4x4.ConvertAll(d =>
             //{
@@ -132,7 +132,7 @@ namespace C2G.Controllers
             using (Car2GoDBEntities db = new Car2GoDBEntities())
             {
                 lstAutos = (from d in db.Auto
-                            where d.tipo == tipo
+                            where d.tipo == tipo && d.estado == "disponible"
                             select new AutoViewModel
                             {
                                 IdAuto = d.id_auto,
@@ -161,14 +161,32 @@ namespace C2G.Controllers
                {
                    return new SelectListItem()
                    {
-                       Text = (d.Marca + ", " + d.Modelo + ", " + d.Transmision + ", " + d.Combustible + ", " + d.Color),
+                       Text = (d.Placa +", "+ d.Marca + ", " + d.Modelo + ", " + d.Transmision + ", " + d.Combustible + ", " + d.Color),
                        Value = d.IdAuto.ToString(),
                        Selected = false
                    };
                });
          }
 
-            [HttpPost]
+        // Convierte una Lista de AutoViewModels a Lista de SelectItems
+        // Se usan para poblar la las dropDownList de la vista de AgregarReserva.
+        private List<SelectListItem> ItemsAutosAgrupados(List<AutoViewModel> lstAutos, string grupo)
+        {
+            var g = new SelectListGroup() { Name = grupo };
+            
+            return lstAutos.ConvertAll(d =>
+            {
+                return new SelectListItem()
+                {
+                    Text = (d.Placa + ", " + d.Marca + ", " + d.Modelo + ", " + d.Transmision + ", " + d.Combustible + ", " + d.Color),
+                    Value = d.IdAuto.ToString(),
+                    Selected = false,
+                    Group = g
+                };
+            });
+        }
+
+        [HttpPost]
         public ActionResult AgregarReserva(ReservaViewModel model)
             {
                 Util u = new Util();

@@ -209,6 +209,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\images\autos\Daihatsu-bego-gris.png" />
+    <Content Include="Assets\images\autos\Toyota-Agya-Blanco.png" />
+    <Content Include="Assets\images\autos\Toyota-Corolla-Brown.png" />
     <Content Include="Assets\images\carousel01.jpg" />
     <Content Include="Assets\images\carousel02.jpg" />
     <Content Include="Assets\images\carousel03.jpg" />
