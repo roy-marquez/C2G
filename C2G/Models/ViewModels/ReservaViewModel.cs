@@ -30,7 +30,7 @@ namespace C2G.Models.ViewModels
         public string LugarRetiro { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Date)]
+        //[DataType(DataType.Date)]
         [Display(Name = "Fecha de Retiro")]
         [Required(ErrorMessage = "Campo obligatorio")]
         public DateTime FechaRetiro { get; set; }
@@ -45,7 +45,7 @@ namespace C2G.Models.ViewModels
         public string LugarDevolucion{ get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Date)]
+        //[DataType(DataType.Date)]
         [Display(Name = "Fecha de Devolución")]
         public DateTime FechaDevolucion { get; set; }
 

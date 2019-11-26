@@ -50,7 +50,7 @@
                                 <a class="btn btn-outline-info" href="~/InventarioAutos/ModificarAuto/@oElemento.IdAuto"><i class="far fa-edit"></i> Modificar</a>
                             </td>
                             <td>
-                                <a class="btn btn-outline-danger" href="~/InventarioAutos/EliminarAuto/@oElemento.IdAuto"><i class="far fa-minus-square"></i> Eliminar</a>
+                                <a class="btn btn-outline-danger aElimina" href="~/InventarioAutos/EliminarAuto/@oElemento.IdAuto"><i class="far fa-minus-square"></i> Eliminar</a>
                             </td>
                         </tr>
                     }
@@ -62,3 +62,13 @@
 
     </main>
 </section>
+
+@section scripts{
+    <script>
+        $(".aElimina").click(function (event) {
+            if (!confirm('¿Estas seguro de Eliminar el Auto?')) {
+                event.preventDefault();
+            }
+        });
+    </script>
+}

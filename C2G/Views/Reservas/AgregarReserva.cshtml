@@ -1,4 +1,5 @@
 ﻿@using C2G.Models;
+@using C2G.Models.ViewModels;
 @using C2G.Logic;
 @model C2G.Models.ViewModels.ReservaViewModel
 
@@ -10,8 +11,12 @@
     List<SelectListItem> ItemsAutosEconomico = (List<SelectListItem>)ViewBag.ItemsAutosEconomico;
 
     //Listas de Servicios y Accesorios que seran enviadas como parte del modelo al controlador
-    List<ReservaServicio> LstRS = new List<ReservaServicio>();
-    List<ReservaAccesorio> LstRA = new List<ReservaAccesorio>();
+    //List<ReservaServicio> LstRS = new List<ReservaServicio>();
+    //List<ReservaServicio> LstRS = Model.Servicios;
+
+    //List<ReservaAccesorio> LstRA = new List<ReservaAccesorio>();
+    //List<ReservaAccesorio> LstRA = Model.Accesorios;
+
 
     //Para el calculo de dias entre fechas
     Util NumDias = new Util();
@@ -41,7 +46,7 @@
 
         @using (Html.BeginForm(("AgregarReserva", "Reservas", FormMethod.Post)))
         {
-            @Html.HiddenFor(d => d.CantidadDias)  
+            @Html.HiddenFor(d => d.CantidadDias)
 
             @*<div class="p-4 border rounded">*@
             <h5> 1. Selección de Auto</h5>
@@ -51,36 +56,36 @@
                     <h5 class="card-header"> Tipo 4x4</h5>
 
                     <div class="card-body">
-                        <img src="~/Assets/images/autos/Daihatsu-bego-gris.png" class="card-img-top"/>
+                        <img src="~/Assets/images/autos/Daihatsu-bego-gris.png" class="card-img-top" />
                         <p class="card-text">
                             Potencia y Elegancia, nuestros 4x4 son ideales para caminos díficiles.
                             Montaña o carretera todo destino es posible.
                         </p>
                     </div>
                     <div class="card-footer">
-                        @Html.DropDownListFor(d => d.IdAuto, ItemsAutos4x4,"Selecciona un 4x4", new { @class = "form-control", id="MiDropDownListAuto" })
+                        @Html.DropDownListFor(d => d.IdAuto, ItemsAutos4x4, "Selecciona un 4x4", new { @class = "form-control", id = "MiDropDownListAuto" })
                     </div>
                 </div>
 
                 <div class="card p-0" style="width: 18rem;">
                     <h5 class="card-header"> Tipo Sedán</h5>
-                    <img src="~/Assets/images/autos/Toyota-Corolla-Brown.png" class="card-img-top"/>
+                    <img src="~/Assets/images/autos/Toyota-Corolla-Brown.png" class="card-img-top" />
                     <div class="card-body">
                         <p class="card-text">Los autos Sedán son ideales para trayectos largos por carretera por negocios o por placer.</p>
                     </div>
                     <div class="card-footer">
-                        @Html.DropDownListFor(d => d.IdAuto, ItemsAutosSedan,"Selecciona un Sedan", new { @class = "form-control" })
+                        @Html.DropDownListFor(d => d.IdAuto, ItemsAutosSedan, "Selecciona un Sedan", new { @class = "form-control" })
                     </div>
                 </div>
 
                 <div class="card p-0" style="width: 18rem;">
                     <h5 class="card-header"> Tipo Compacto</h5>
-                    <img src="~/Assets/images/autos/Toyota-Agya-Blanco.png" class="card-img-top"/>
+                    <img src="~/Assets/images/autos/Toyota-Agya-Blanco.png" class="card-img-top" />
                     <div class="card-body">
                         <p class="card-text">El mejor balance precio calidad, en compactos pensados para movilizarte de forma eficiente por las concurridas ciudades de nuestro país.</p>
                     </div>
                     <div class="card-footer">
-                        @Html.DropDownListFor(d => d.IdAuto, ItemsAutosEconomico,"Selecciona un Compacto", new { @class = "form-control" })
+                        @Html.DropDownListFor(d => d.IdAuto, ItemsAutosEconomico, "Selecciona un Compacto", new { @class = "form-control" })
                     </div>
                 </div>
             </div>
@@ -106,13 +111,14 @@
                         @* FECHA *@
                         <div style="padding: 1em;" class="form-group">
                             @Html.LabelFor(d => d.FechaRetiro) <br>
-                            @Html.EditorFor(d => d.FechaRetiro, " ", new { @class = "form-control datepicker" })
+                            @Html.EditorFor(d => d.FechaRetiro, " ", new { @class = "form-control" })
+                            @*<input type="text" id="firstDate" name="firstDate" placeholder="Seleccione Fecha" />*@
                             @Html.ValidationMessageFor(d => d.FechaRetiro, null, new { @class = "text-danger" })
                         </div>
                         @* HORA *@
                         <div style="padding: 1em;">
-                            @Html.LabelFor(d => d.HoraDevolucion) <br>
-                            @Html.DropDownListFor(d => d.HoraDevolucion, new List<SelectListItem>
+                            @Html.LabelFor(d => d.HoraRetiro) <br>
+                            @Html.DropDownListFor(d => d.HoraRetiro, new List<SelectListItem>
                                 {
                                     new SelectListItem { Text = "06:00 AM", Value = "06:00:00"},
                                     new SelectListItem { Text = "07:00 AM", Value = "07:00:00"},
@@ -135,13 +141,11 @@
                     </div>
                 </div>
                 @*--------- CANTIDAD DE DIAS -----------*@
-                <div class="col-sm-3 m-2 p-2 d-none">
+                <div class="col-sm-3 m-2 p-2">
                     <div class="card bg-light" style="min-height: 320px; font-size: 3rem;">
                         <h5 class="card-header">Cantidad de días</h5>
                         <form action="/" method="post" class="justify-content-center">
-                            <label id="cantidad-dias" class="mt-4 text-center">
-                                0
-                            </label>
+                            <input type="text" id="cantidad-dias" class="m-3 text-center " value="0" disabled>
                         </form>
 
                     </div>
@@ -168,7 +172,8 @@
                         @* FECHA *@
                         <div style="padding: 1em;">
                             @Html.LabelFor(d => d.FechaDevolucion) <br>
-                            @Html.EditorFor(d => d.FechaDevolucion, "", new { @class = "form-control " })
+                            @Html.EditorFor(d => d.FechaDevolucion, "", new { @class = "form-control" })
+                            @* <input type="text" id="secondDate" name="secondDate" placeholder="Seleccione Fecha" />*@
                             @Html.ValidationMessageFor(d => d.FechaDevolucion, null, new { @class = "text-danger" })
                         </div>
 
@@ -199,12 +204,84 @@
                 </div>
             </div>
 
-            <h5> 3. Servicios </h5>
-            
-            
-            <h5> 4. Accesorios </h5>
+            <h5> 3. Servicios</h5>
+            <div class="row">
+                @*TABLA DE CABECERA DE RESERVA*@
+                <table class="table table-responsive-md table-bordered table-hover text-center mb-4 bg-light table-striped">
+                    <tr>
+                        <th class="p-2 bg-success" colspan="7"> Seleccione Servicios </th>
+                    </tr>
+                    <tr>
+                        <th>Id Servicio</th>
+                        <th>Cantidad</th>
+                        <th>Codigo</th>
+                        <th>Descripcion</th>
+                        <th>Cant. Dias</th>
+                        <th>Precio/dia</th>
+                        <th>Cargo</th>
+                    </tr>
+                    @{
+                        List<ReservaServicioViewModel> lstRsvm = new List<ReservaServicioViewModel>();
+                        lstRsvm = C2G.Controllers.ReservasController.ServiciosDisponibles();
 
-            
+
+                        foreach (ReservaServicioViewModel srvm in lstRsvm)
+                        {
+                            <tr>
+                                <td>@srvm.IdServicio</td>
+                                <td> <input type="number" value="@srvm.Cantidad" class="form-control" style="width: 60px;" /></td>
+                                <td>@srvm.ServicioNombre</td>
+                                <td class="text-left">@srvm.ServicioDescripcion</td>
+                                <td><input type="number" value="@srvm.CantidadDias" class="form-control cant-dias" style="width: 60px;" disabled /> </td>
+                                <td><input type="number" value="@srvm.PrecioPorDia" class="form-control" style="width: 120px;" disabled /></td>
+                                <td><input type="number" value="@srvm.Cargo" class="form-control" style="width: 120px;" disabled /></td>
+                            </tr>
+                        }
+
+                    }
+
+                </table>
+            </div>
+
+            <h5> 4. Accesorios </h5>
+            <div class="row">
+                @*TABLA DE CABECERA DE RESERVA*@
+                <table class="table table-responsive-md table-bordered table-hover text-center mb-4 bg-light table-striped">
+                    <tr>
+                        <th class="p-2 bg-info" colspan="7"> Seleccione Accesorios </th>
+                    </tr>
+                    <tr>
+                        <th>Id Accesorio</th>
+                        <th>Cantidad</th>
+                        <th>Codigo</th>
+                        <th>Descripcion</th>
+                        <th>Cant. Dias</th>
+                        <th>Precio/dia</th>
+                        <th>Cargo</th>
+                    </tr>
+                    @{
+                        List<ReservaAccesorioViewModel> lstRavm = new List<ReservaAccesorioViewModel>();
+                        lstRavm = C2G.Controllers.ReservasController.AccesoriosDisponibles();
+
+
+                        foreach (ReservaAccesorioViewModel savm in lstRavm)
+                        {
+                            <tr>
+                                <td>@savm.IdAccesorio</td>
+                                <td> <input type="number" value="@savm.Cantidad" class="form-control" style="width: 60px;" /></td>
+                                <td>@savm.AccesorioNombre</td>
+                                <td class="text-left">@savm.AccesorioDescripcion</td>
+                                <td><input type="number" value="@savm.CantidadDias" class="form-control cant-dias" style="width: 60px;" disabled /> </td>
+                                <td><input type="number" value="@savm.PrecioPorDia" class="form-control" style="width: 120px;" disabled /></td>
+                                <td><input type="number" value="@savm.Cargo" class="form-control" style="width: 120px;" disabled /></td>
+                            </tr>
+                        }
+
+                    }
+
+                </table>
+            </div>
+
 
 
 
@@ -219,3 +296,51 @@
     </div>
 
 </div>
+
+Este CSS se usa para el jquery datepicker
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+@section scripts{
+    @Scripts.Render("~/bundles/jquery")
+
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+    @*CALCULAR DIAS ENTRE FECHAS*@
+    <script>
+        $("#FechaRetiro").datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-5:+5",
+            showOn: "both",
+            buttonText: "<i class='fa fa-calendar'></i> ",
+        });
+        $("#FechaDevolucion").datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-5:+5",
+            showOn: "both",
+            buttonText: "<i class='fa fa-calendar'></i> ",
+            minDate: new Date($('#FechaRetiro').datepicker("getDate")),
+            onSelect: function () {
+                //alert($("#FechaRetiro").datepicker("getDate"));
+                //calcularDias();
+                var dias = calcularDias($('#FechaRetiro').datepicker("getDate"),
+                    $('#FechaDevolucion').datepicker("getDate"));
+                $("#cantidad-dias").val(dias);
+                $(".cant-dias").val(dias);
+            }
+        });
+
+        function calcularDias(startDate, endDate) {
+            if (endDate && startDate) //asegurar que no esten fechas vacias
+                var days = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
+            return (days < 1 ? 1 : days);
+            return "Fecha vacía";
+        }
+
+        function CalcularCargo(cantidad, cantidadDias, precio) {
+
+        }
+    </script>
+}
