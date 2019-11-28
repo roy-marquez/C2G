@@ -20,7 +20,7 @@ namespace C2G.Controllers
         public ActionResult Index()
         {
             oUsuario = (Usuario)Session["User"];
-            ViewBag.CurrentUser = oUsuario.nombre;
+            //ViewBag.CurrentUser = oUsuario.nombre;
 
             // Lista historial de reservas de un cliente
             List<ListReservaViewModel> lst;

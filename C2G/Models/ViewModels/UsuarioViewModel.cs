@@ -30,7 +30,6 @@ namespace C2G.Models.ViewModels
         [Display(Name = "Número de ID")]
         [Required(ErrorMessage = "Campo obligatorio")]
         public string DocIdNum { get; set; }
-
         
         [Required(ErrorMessage = "Campo obligatorio")]
         public string Nombre { get; set; }
@@ -44,6 +43,8 @@ namespace C2G.Models.ViewModels
 
         [Display(Name = "E-mail (Usuario en Login)")]
         [Required(ErrorMessage = "Campo obligatorio")]
+        //[DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage = "Formato Email Incorrecto")]
         public string Email { get; set; }
 
         [Display(Name = "Tipo de Licencia")]

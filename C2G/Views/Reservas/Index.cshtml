@@ -11,27 +11,30 @@
         </div>
 
         <div class="col-md-12 align-content-center">
-            @{var cliente = Model.FirstOrDefault(); }
-            <div class="row">
-                @*TABLA DE CABECERA DE RESERVA*@
-                <table class="table table-responsive-md table-bordered table-hover text-center mb-4 bg-light">
-                    <tr>
-                        <th class="p-2 bg-success" colspan="4"> Datos del cliente </th>
-                    </tr>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Primer Apellido:</th>
-                        <th>Segundo Apellido:</th>
-                        <th>Email:</th>
-                    </tr>
-                    <tr>
-                        <td>@cliente.Nombre</td>
-                        <td>@cliente.Apellido1</td>
-                        <td>@cliente.Apellido2</td>
-                        <td>@cliente.Email</td>
-                    </tr>
-                </table>
-            </div>
+            @{var cliente = Model.FirstOrDefault();
+                if(cliente != null) { 
+                <div class="row">
+                    @*TABLA DE CABECERA DE RESERVA*@
+                    <table class="table table-responsive-md table-bordered table-hover text-center mb-4 bg-light">
+                        <tr>
+                            <th class="p-2 bg-success" colspan="4"> Datos del cliente </th>
+                        </tr>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Primer Apellido:</th>
+                            <th>Segundo Apellido:</th>
+                            <th>Email:</th>
+                        </tr>
+                        <tr>
+                            <td>@cliente.Nombre</td>
+                            <td>@cliente.Apellido1</td>
+                            <td>@cliente.Apellido2</td>
+                            <td>@cliente.Email</td>
+                        </tr>
+                    </table>
+                </div>
+                }
+            }
         </div>
         <div class="row">
             <div class="col-md-12 align-content-center">

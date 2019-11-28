@@ -88,7 +88,7 @@ namespace C2G.Controllers
                     }
 
                     ViewBag.Usuario = model.Nombre + " " + model.Apellido1;
-
+                    
                     return Redirect("~/Usuario/RegistroExitoso");
                 }
 
@@ -104,6 +104,7 @@ namespace C2G.Controllers
         {
             return View();
         }
+
 
     }
 }
