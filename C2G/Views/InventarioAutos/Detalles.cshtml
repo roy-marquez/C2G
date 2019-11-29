@@ -1,0 +1,71 @@
+﻿@model C2G.Models.ViewModels.AutoViewModel
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <section class="container p-4">
+        <h4>Detalle de Auto</h4>
+
+        <main style="margin-bottom: 50px;">
+
+            <dl class="row">
+
+                <dt class="col-sm-3 text-sm-right">
+                    @Html.DisplayNameFor(model => model.Placa)
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Placa)
+                </dd>
+
+                <dt class="col-sm-3 text-sm-right">
+                    @Html.DisplayNameFor(model => model.Marca)
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Marca)
+                </dd>
+
+                <dt class="col-sm-3 text-sm-right">
+                    @Html.DisplayNameFor(model => model.Modelo)
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Modelo)
+                </dd>
+
+                <dt class="col-sm-3 text-sm-right">
+                    @Html.DisplayNameFor(model => model.Combustible)
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Combustible)
+                </dd>
+
+                <dt class="col-sm-3 text-sm-right">
+                    @Html.DisplayNameFor(model => model.Anio)
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Anio.Year)
+                </dd>
+
+                <dt class="col-sm-3 text-sm-right">
+                    Foto
+                </dt>
+            </dl>
+        </main>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="text-center">
+                        <img class="mx-auto d-block" style="max-width:75vw" src="@Url.Content(Model.ImagenRuta)">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-5 text-success">
+            <span><i class="fas fa-chevron-circle-left"></i> </span>  @Html.ActionLink("Volver", "Index")
+        </div>
+    </section>

@@ -1,6 +1,7 @@
 ﻿@model List<C2G.Models.ViewModels.ListAutoViewModel>
 @{
     ViewBag.Title = "Inventario Autos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <section class="container p-4">
@@ -11,59 +12,69 @@
             <a href="~/InventarioAutos/AgregarAuto" class="btn btn-outline-success"> <i class="far fa-plus-square"></i> Agregar</a>
         </div>
 
+        <table @*class="table table-responsive-md table-bordered table-hover"*@ class="table table-hover ta table-responsive-md" id="tabla-autos">
+            <thead>
+                <tr class="p-2">
+                    <th class="p-1">#</th>
+                    <th class="p-1">Placa</th>
+                    <th class="p-1">Marca</th>
+                    <th class="p-1">Modelo</th>
+                    <th class="p-1">Transmisión</th>
+                    <th class="p-1">Combustible</th>
+                    <th class="p-1">Color</th>
+                    <th class="p-1">Año</th>
+                    <th class="p-1">Rack</th>
+                    <th class="p-1">Tipo</th>
+                    <th class="p-1">Foto</th>
+                    <th class="p-1">Lugar</th>
+                    <th class="p-1">Estado</th>
+                    <th class="p-1">Operaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var oElemento in Model)
+                {
+                    <tr>
+                        <td class="p-1">@oElemento.IdAuto</td>
+                        <td class="p-1">@oElemento.Placa</td>
+                        <td class="p-1">@oElemento.Marca</td>
+                        <td class="p-1">@oElemento.Modelo</td>
+                        <td class="p-1">@oElemento.Transmision</td>
+                        <td class="p-1">@oElemento.Combustible</td>
+                        <td class="p-1">@oElemento.Color</td>
+                        <td class="p-1">@oElemento.Anio.Year</td>
+                        <td class="p-1">@oElemento.Rack</td>
+                        <td class="p-1">@oElemento.Tipo</td>
+                        <td>@{
+                            if (oElemento.ImagenRuta != null) {
+                               <span> @Html.ActionLink("Ver Foto", "Detalles", new { id = oElemento.IdAuto }) </span>
+                                    } else { <span>Sin Foto</span>}
+                        }</td>
+                        <td class="p-1">@oElemento.Lugar</td>
+                        <td class="p-1">@oElemento.Estado</td>
+                        <td>
+                            @*<a class="btn btn-outline-info" href="~/InventarioAutos/ModificarAuto/@oElemento.IdAuto"><i class="far fa-edit"></i> Modificar</a>*@
+                            @Html.ActionLink("Modificar", "ModificarAuto", new { id = oElemento.IdAuto }) | @Html.ActionLink("Eliminar", "EliminarAuto", new { id = oElemento.IdAuto}, new { @Class = "aElimina"}) 
+                        </td>
+                        @*<td>
+                                <a class="btn btn-outline-danger aElimina" href="~/InventarioAutos/EliminarAuto/@oElemento.IdAuto"><i class="far fa-minus-square"></i> Eliminar</a>
+                            </td>*@
+                    </tr>
+                }
+            </tbody>
+        </table>
+
         <div class="row">
             <div class="col-md-12">
-                <table class="tabla table-responsive-md table-bordered table-hover">
-                    <tr class="p-2">
-                        <th class="p-1">#</th>
-                        <th class="p-1">Placa</th>
-                        <th class="p-1">Marca</th>
-                        <th class="p-1">Modelo</th>
-                        <th class="p-1">Transmisión</th>
-                        <th class="p-1">Combustible</th>
-                        <th class="p-1">Color</th>
-                        <th class="p-1">Año</th>
-                        <th class="p-1">Rack</th>
-                        <th class="p-1">Tipo</th>
-                        @*<th>Foto</th>*@
-                        <th class="p-1">Lugar</th>
-                        <th class="p-1">Estado</th>
-                        <th colspan="2">Operaciones</th>
-                    </tr>
-                    @foreach (var oElemento in Model)
-                    {
-                        <tr>
-                            <td class="p-1">@oElemento.IdAuto</td>
-                            <td class="p-1">@oElemento.Placa</td>
-                            <td class="p-1">@oElemento.Marca</td>
-                            <td class="p-1">@oElemento.Modelo</td>
-                            <td class="p-1">@oElemento.Transmision</td>
-                            <td class="p-1">@oElemento.Combustible</td>
-                            <td class="p-1">@oElemento.Color</td>
-                            <td class="p-1">@oElemento.Anio.Year</td>
-                            <td class="p-1">@oElemento.Rack</td>
-                            <td class="p-1">@oElemento.Tipo</td>
-                            @*<td>@oElemento.ImagenRuta</td>*@
-                            <td class="p-1">@oElemento.Lugar</td>
-                            <td class="p-1">@oElemento.Estado</td>
-                            <td>
-                                <a class="btn btn-outline-info" href="~/InventarioAutos/ModificarAuto/@oElemento.IdAuto"><i class="far fa-edit"></i> Modificar</a>
-                            </td>
-                            <td>
-                                <a class="btn btn-outline-danger aElimina" href="~/InventarioAutos/EliminarAuto/@oElemento.IdAuto"><i class="far fa-minus-square"></i> Eliminar</a>
-                            </td>
-                        </tr>
-                    }
 
-                </table>
             </div>
         </div>
-
-
     </main>
+
 </section>
 
 @section scripts{
+
     <script>
         $(".aElimina").click(function (event) {
             if (!confirm('¿Estas seguro de Eliminar el Auto?')) {
@@ -71,4 +82,32 @@
             }
         });
     </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tabla-autos').DataTable({
+                "language": {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Autos",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total autos)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar Auto:",
+                    "zeroRecords": "No se encontraron Autos con esas características",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                }
+            });
+        });
+    </script>
+
 }

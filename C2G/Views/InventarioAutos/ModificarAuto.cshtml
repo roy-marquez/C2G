@@ -7,7 +7,7 @@
 <div class="container mb-5 p-4">
     <h3>@ViewBag.Title</h3>
 
-    @using (Html.BeginForm("ModificarAuto", "InventarioAutos", FormMethod.Post))
+    @using (Html.BeginForm("ModificarAuto", "InventarioAutos", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
 
         <div class="row">
@@ -77,6 +77,14 @@
                     <label class="mr-4">@Html.RadioButtonFor(d => d.Tipo, "sedan") Sedán </label>
                     <label>@Html.RadioButtonFor(d => d.Tipo, "economico") Económico </label> <br />
                     @Html.ValidationMessageFor(d => d.Tipo, null, new { @class = "text-danger" })
+                </div>
+
+                @* -- TALLER 2 -> AGREGAR IMAGEN A CADA AUTO --*@
+                <div style="padding: 1em;">
+                    @Html.LabelFor(d => d.ImagenRuta)
+                    <input type="file" name="ImageFile"> <br />
+                    @Html.EditorFor(d => d.ImagenRuta)
+                    @Html.ValidationMessageFor(d => d.ImageFile, null, new { @class = "text-danger" })
                 </div>
 
                 <div style="padding: 1em;" class="border rounded m-3">

@@ -28,6 +28,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <script src="https://kit.fontawesome.com/f3ee358571.js" crossorigin="anonymous"></script>
+    <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -83,7 +84,6 @@
     <div class="container body-content border-box">
         <footer class="bg-dark d-flex align-items-center justify-content-center fixed-bottom">
             <div class="text-center">
-                @*<hr />*@
                 <p>&copy; @DateTime.Now.Year - Car2Go S.A.</p>
             </div>
         </footer>
@@ -91,7 +91,10 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-
+    @*<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="https://kit.fontawesome.com/f3ee358571.js" crossorigin="anonymous"></script>
     @RenderSection("scripts", required: false)
+
 </body>
 </html>

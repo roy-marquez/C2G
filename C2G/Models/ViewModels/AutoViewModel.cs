@@ -47,7 +47,7 @@ namespace C2G.Models.ViewModels
         [Required(ErrorMessage = "Campo obligatorio")]
         public string Tipo { get; set; }
 
-        [Display(Name = "Ruta de Imagen")]
+        [Display(Name = "Imagen")]
         public string ImagenRuta { get; set; }
 
         [StringLength(50, ErrorMessage = "Máximo 50 carácteres")]
@@ -56,5 +56,6 @@ namespace C2G.Models.ViewModels
         [Required(ErrorMessage = "Campo obligatorio")]
         public string Estado { get; set; }
 
+        public HttpPostedFileBase ImageFile { get; set; }
     }
 }

@@ -33,5 +33,7 @@ namespace C2G.Models.ViewModels
 
         public string Estado { get; set; }
 
+        public HttpPostedFile ImageFile { get; set; }
+
     }
 }
