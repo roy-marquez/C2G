@@ -75,7 +75,8 @@
                             <td class="p-1">@oElemento.CantidadDias</td>
 
                             <td>
-                                <a class="btn btn-outline-info" href="~/Reservas/ModificarReserva/@oElemento.IdReserva"><i class="far fa-edit"></i> Modificar</a>
+                                @*<a class="btn btn-outline-info" href="~/Reservas/ConfirmacionReserva/@oElemento.IdReserva"><i class="far fa-envelope"></i> Enviar Correo </a>*@
+                                <a class="btn btn-outline-info" onclick="ConfirmarReserva(@oElemento.IdReserva)"><i class="far fa-envelope"></i> Enviar Correo </a>
                             </td>
                             <td>
                                 <a class="btn btn-outline-danger" href="~/Reservas/EliminarReserva/@oElemento.IdReserva"><i class="far fa-minus-square"></i> Cancelar</a>
@@ -175,3 +176,23 @@
         </div>
     </main>
 </section>
+
+@section scripts{
+    <script>
+        var ConfirmarReserva = function (id) {
+            $.ajax({
+                type: "Post",
+                url: "/Reservas/ConfirmacionReserva/"+id,
+                success: function (data) {
+                    if (data = true) {
+                        alert("Confirmación de Reserva enviada satisfactoriamente");
+                    }
+                    else {
+                        alert("Error al enviar Confirmación de Reserva, intente de nuevo más tarde.");
+                    }
+                }
+            })
+        }
+    </script>
+    
+}

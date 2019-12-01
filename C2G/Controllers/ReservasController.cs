@@ -9,6 +9,9 @@ using C2G.Models.ViewModels;
 using C2G.Logic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Net.Mail;
+using System.Net;
+using System.Text;
 
 namespace C2G.Controllers
 {
@@ -89,6 +92,83 @@ namespace C2G.Controllers
                        }).ToList();
             }
             return View(lst);
+        }
+
+        //Recibe el id de la reserva, usando el metodo EnviarCorreo envia confirmacion a cliente a su correo registrado
+        public JsonResult ConfirmacionReserva(int id)
+        {
+            oUsuario = (Usuario)Session["User"];
+            string emailBody = "<h3>Confirmación de Reserva</h3>";
+            emailBody += "<p>Estimado(a)," + oUsuario.nombre + " " + oUsuario.apellido1 + "</p>";
+            emailBody += "<p>Se ha registrado su reserva con los siguientes datos generales: </p>";
+            emailBody += "<hr> ";
+           
+            using (Car2GoDBEntities db = new Car2GoDBEntities())
+            {
+                Reserva reserva = new Reserva();
+                reserva = db.Reserva.Find(id);
+                emailBody += "<h4>Datos Generales</h4> ";
+                emailBody += "<p>IdReserva: " + reserva.id_reserva + "</p>";
+                emailBody += "<p>Fecha y hora de reserva: " + reserva.fecha_hora_reserva + "</p>";
+                emailBody += "<p>IdAuto: " + reserva.id_auto + "</p> <br/><hr/>";
+
+                //Retiro
+                emailBody += "<h4>Retiro</h4> ";
+                emailBody += "<p>Lugar de Retiro: " + reserva.lugar_retiro + "</p>";
+                emailBody += "<p>Fecha de Retiro: " + reserva.fecha_retiro.ToShortDateString() + "</p>";
+                emailBody += "<p>Hora de Retiro: " + reserva.hora_retiro.ToShortTimeString()+ "</p> <hr/>";
+
+                //Devolucion
+                emailBody += "<h4>Devolución</h4> ";
+                emailBody += "<p>Lugar de Devolución: " + reserva.lugar_devolucion + "</p>";
+                emailBody += "<p>Fecha de Devolución: " + reserva.fecha_devolucion.ToShortDateString() + "<p>";
+                emailBody += "<p>Hora de Devolución: " + reserva.hora_devolucion.ToShortTimeString() + "</p> <hr/>";
+
+                //Dias y cargos
+                emailBody += "<h4>Cantidad de Días y Cargos </h4> ";
+                emailBody += "<p>Cantidad de Dias: " + reserva.cantidad_dias + "</p>";
+                emailBody += "<p>Cargos por servicios: " + reserva.cargos_servicios + "</p>";
+                emailBody += "<p>Cargos por accesorios: " + reserva.cargos_accesorios + "</p><br/><hr/>";
+
+                emailBody += "<p><strong>SubTotal: </strong>" + reserva.cargos_subtotal + "</p>";
+                emailBody += "<p>El monto a reembolsar por deposito es: " + reserva.monto_reembolso + "</p> ";
+            }
+            emailBody += "<p> Muchas gracias. </p> <p><strong> Car2Go Costa Rica </strong> </p>";
+            bool result = false;
+            result = EnviarCorreo(oUsuario.email, "Car2Go >> Confirmacion de Reserva #"+id, emailBody);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public bool EnviarCorreo(string toEmail, string subject, string emailBody)
+        {
+            try
+            {
+                //El email y el password del servidor de correo utilizado debe configurarse en Web.config
+                string senderEmail = System.Configuration.ConfigurationManager.AppSettings["SenderEmail"].ToString();
+                string senderPassword = System.Configuration.ConfigurationManager.AppSettings["SenderPassword"].ToString();
+
+                //Configuracion del Email
+                MailMessage mailMessage = new MailMessage(senderEmail, toEmail, subject, emailBody);
+                mailMessage.IsBodyHtml = true;
+                mailMessage.BodyEncoding = UTF8Encoding.UTF8;
+
+                //Datos y configuracion del Servidor SMTP
+                SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+                client.EnableSsl = true;
+                client.Timeout = 100000;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential(senderEmail, senderPassword);
+                client.Send(mailMessage);
+                
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Error al enviar confirmacion por email: " + ex.Message.ToString();
+                return false;            
+            }
+            
         }
 
         //REGISTRO NUEVO+++++++++++++++
